@@ -28,7 +28,7 @@ jobs:
       run: dotnet test -c Release --verbosity normal
 
     - name: Build
-      run: dotnet publish -c Release -o publish
+      run: dotnet publish TS3AudioBot -c Release -o publish
 
     - name: Get Version
       id: get_version
