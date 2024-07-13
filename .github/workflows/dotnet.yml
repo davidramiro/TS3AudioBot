@@ -12,6 +12,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
+        submodules: 'recursive'
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -66,12 +67,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        rid: [ linux-x64, linux-arm, linux-arm64, win-x64 ]
+        rid: [ "linux-x64", "linux-arm", "linux-arm64", "win-x64" ]
 
     steps:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
+        submodules: 'recursive'
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
