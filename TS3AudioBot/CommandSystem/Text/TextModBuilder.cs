@@ -13,8 +13,11 @@ using System.Text.RegularExpressions;
 
 namespace TS3AudioBot.CommandSystem.Text;
 
-public class TextModBuilder
+public partial class TextModBuilder
 {
+	[GeneratedRegex(@"{\d+}", RegexOptions.ExplicitCapture)]
+	private static partial Regex Placeholder();
+
 	private readonly bool color;
 	private readonly StringBuilder strb;
 	private TextMod cur = TextMod.None;
@@ -64,7 +67,7 @@ public class TextModBuilder
 		}
 		else
 		{
-			var parts = Regex.Split(format.Text, @"{\d+}");
+			var parts = Placeholder().Split(format.Text);
 
 			for (int i = 0; i < parts.Length - 1; i++)
 			{

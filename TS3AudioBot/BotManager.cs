@@ -202,8 +202,7 @@ public class BotManager
 	// !! This method must be called with a lock on lockObj
 	private Bot? GetBotSave(string name)
 	{
-		if (name is null)
-			throw new ArgumentNullException(nameof(name));
+		ArgumentNullException.ThrowIfNull(name);
 		if (activeBots is null)
 			return null;
 		return activeBots.Find(x => x?.Name == name);

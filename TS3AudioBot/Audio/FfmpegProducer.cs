@@ -179,8 +179,8 @@ public sealed class FfmpegProducer : IPlayerSource, IDisposable
 
 	private R<FfmpegInstance, string> SetPosition(TimeSpan value)
 	{
-		if (value < TimeSpan.Zero)
-			throw new ArgumentOutOfRangeException(nameof(value));
+		ArgumentOutOfRangeException.ThrowIfLessThan(value, TimeSpan.Zero);
+
 		var instance = ffmpegInstance;
 		if (instance is null)
 			return "No instance running";

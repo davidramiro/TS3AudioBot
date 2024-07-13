@@ -15,20 +15,13 @@ namespace TS3AudioBot.CommandSystem.Commands;
 /// <summary>
 /// A command that stores a result and returns it.
 /// </summary>
-public class ResultCommand : ICommand
+public class ResultCommand(object? contentArg) : ICommand
 {
-	public object? Content { get; }
+	public object? Content { get; } = contentArg;
 
-	public ResultCommand(object? contentArg)
+	public virtual ValueTask<object?> Execute(ExecutionInformation info, IReadOnlyList<ICommand> arguments)
 	{
-		Content = contentArg;
-	}
-
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-	public virtual async ValueTask<object?> Execute(ExecutionInformation info, IReadOnlyList<ICommand> arguments)
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
-	{
-		return Content;
+		return ValueTask.FromResult(Content);
 	}
 
 	public override string ToString() => "<result>";

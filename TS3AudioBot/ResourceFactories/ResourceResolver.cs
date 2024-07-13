@@ -82,8 +82,7 @@ public sealed class ResourceResolver : IDisposable
 	/// <returns>The playable resource if successful, or an error message otherwise.</returns>
 	public async Task<PlayResource> Load(ResolveContext ctx, AudioResource resource, CancellationToken cancellationToken)
 	{
-		if (resource is null)
-			throw new ArgumentNullException(nameof(resource));
+		ArgumentNullException.ThrowIfNull(resource);
 
 		var resolver = GetResolverByType<IResourceResolver>(resource.AudioType);
 		if (resolver is null)

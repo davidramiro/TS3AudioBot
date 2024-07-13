@@ -106,8 +106,7 @@ public sealed class HistoryManager
 
 	public AudioLogEntry? LogAudioResource(HistorySaveData saveData)
 	{
-		if (saveData is null)
-			throw new ArgumentNullException(nameof(saveData));
+		ArgumentNullException.ThrowIfNull(saveData);
 
 		lock (dbLock)
 		{
@@ -133,8 +132,7 @@ public sealed class HistoryManager
 	/// <param name="ale">The <see cref="AudioLogEntry"/> to update.</param>
 	private void LogEntryPlay(AudioLogEntry ale)
 	{
-		if (ale is null)
-			throw new ArgumentNullException(nameof(ale));
+		ArgumentNullException.ThrowIfNull(ale);
 
 		// update the playtime
 		ale.Timestamp = Tools.Now;
@@ -172,8 +170,7 @@ public sealed class HistoryManager
 	/// <returns>A list of all found entries.</returns>
 	public IEnumerable<AudioLogEntry> Search(SearchQuery search)
 	{
-		if (search is null)
-			throw new ArgumentNullException(nameof(search));
+		ArgumentNullException.ThrowIfNull(search);
 
 		if (search.MaxResults <= 0)
 			return [];
@@ -204,8 +201,7 @@ public sealed class HistoryManager
 
 	public AudioLogEntry? FindEntryByResource(AudioResource resource)
 	{
-		if (resource is null)
-			throw new ArgumentNullException(nameof(resource));
+		ArgumentNullException.ThrowIfNull(resource);
 		return FindByUniqueId(resource.UniqueId);
 	}
 
@@ -222,8 +218,7 @@ public sealed class HistoryManager
 	/// <param name="ale">The <see cref="AudioLogEntry"/> to delete.</param>
 	public bool RemoveEntry(AudioLogEntry ale)
 	{
-		if (ale is null)
-			throw new ArgumentNullException(nameof(ale));
+		ArgumentNullException.ThrowIfNull(ale);
 		return audioLogEntries.Delete(ale.Id);
 	}
 
@@ -233,8 +228,7 @@ public sealed class HistoryManager
 	/// <exception cref="ArgumentNullException">When ale is null or the name is null, empty or only whitespaces</exception>
 	public void RenameEntry(AudioLogEntry ale, string newName)
 	{
-		if (ale is null)
-			throw new ArgumentNullException(nameof(ale));
+		ArgumentNullException.ThrowIfNull(ale);
 		if (string.IsNullOrWhiteSpace(newName))
 			throw new ArgumentNullException(nameof(newName));
 		// update the name

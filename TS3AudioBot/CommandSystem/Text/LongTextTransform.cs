@@ -92,7 +92,7 @@ public static class LongTextTransform
 						hasSplit = true;
 					}
 				}
-				splitIndices.Fill(0);
+				splitIndices.Clear();
 			}
 
 			if (!hasSplit)

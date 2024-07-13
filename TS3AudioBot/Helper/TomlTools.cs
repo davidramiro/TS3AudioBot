@@ -163,8 +163,8 @@ public static class TomlTools
 
 	public static TomlObject Set<T>(this TomlTable tomlTable, string key, T value)
 	{
-		if (tomlTable is null) throw new ArgumentNullException(nameof(tomlTable));
-		if (key is null) throw new ArgumentNullException(nameof(key));
+		ArgumentNullException.ThrowIfNull(tomlTable);
+		ArgumentNullException.ThrowIfNull(key);
 		if (value is null) throw new ArgumentNullException(nameof(value));
 
 		// I literally have no idea how to write it better with this toml library.

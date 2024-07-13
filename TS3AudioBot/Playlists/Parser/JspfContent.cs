@@ -115,7 +115,7 @@ internal class JspfMetaConverter : JsonConverter<XspfMeta>
 		}
 		else
 		{
-			if (value is null) throw new ArgumentNullException(nameof(value));
+			ArgumentNullException.ThrowIfNull(value);
 			writer.WriteStartObject();
 			writer.WriteString(value.Key, value.Value);
 			writer.WriteEndObject();

@@ -69,6 +69,7 @@ csharp_preserve_single_line_statements = true
 # Diagnostics
 dotnet_diagnostic.CA1310.severity=warning
 dotnet_diagnostic.CA1309.severity=warning
+dotnet_diagnostic.IDE0290.severity=silent
 
 # IDE0057: Use range operator
 csharp_style_prefer_range_operator = true

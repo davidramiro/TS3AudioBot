@@ -99,8 +99,7 @@ public class PlayManager
 	/// <returns>Ok if successful, or an error message otherwise.</returns>
 	public async Task Play(InvokerData invoker, AudioResource ar, PlayInfo? meta = null)
 	{
-		if (ar is null)
-			throw new ArgumentNullException(nameof(ar));
+		ArgumentNullException.ThrowIfNull(ar);
 
 		PlayResource playResource;
 		try
@@ -146,8 +145,7 @@ public class PlayManager
 
 	public async Task Play(InvokerData invoker, PlaylistItem item)
 	{
-		if (item is null)
-			throw new ArgumentNullException(nameof(item));
+		ArgumentNullException.ThrowIfNull(item);
 
 		if (item.AudioResource is null)
 			throw new Exception("Invalid playlist item");

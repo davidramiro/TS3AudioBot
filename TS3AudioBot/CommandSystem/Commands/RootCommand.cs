@@ -8,7 +8,6 @@
 // program. If not, see <https://opensource.org/licenses/OSL-3.0>.
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TS3AudioBot.Dependency;
 
@@ -37,7 +36,7 @@ public class RootCommand : ICommand
 		else if (internArguments.Count == 0)
 			merged = arguments;
 		else
-			merged = internArguments.Concat(arguments).ToArray();
+			merged = [.. internArguments, .. arguments];
 		return await cmdSys.RootGroup.Execute(info, merged);
 	}
 
