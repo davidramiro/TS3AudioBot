@@ -7,6 +7,7 @@
 // You should have received a copy of the Open Software License along with this
 // program. If not, see <https://opensource.org/licenses/OSL-3.0>.
 
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,7 +70,7 @@ public static class Tools
 	// Generic
 
 	public static void SetLogId(Id id) => SetLogId(id.ToString());
-	public static void SetLogId(string id) => NLog.MappedDiagnosticsLogicalContext.Set("BotId", id);
+	public static void SetLogId(string id) => ScopeContext.PushProperty("BotId", id);
 
 	public static Exception UnhandledDefault<T>(T value) where T : struct { return new MissingEnumCaseException(typeof(T).Name, value.ToString() ?? string.Empty); }
 }

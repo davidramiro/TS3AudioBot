@@ -165,7 +165,7 @@ internal sealed class PacketHandler<TIn, TOut>
 			pingCheckRunning = 0;
 			pingCheck = Tools.Now;
 			if (resendTimer == null)
-				resendTimer = new Timer((_) => { using (MappedDiagnosticsLogicalContext.SetScoped("BotId", id)) ResendLoop(); }, null, ClockResolution, ClockResolution);
+				resendTimer = new Timer((_) => { using (ScopeContext.PushProperty("BotId", id)) ResendLoop(); }, null, ClockResolution, ClockResolution);
 			return R.Ok;
 		}
 	}
@@ -335,7 +335,7 @@ internal sealed class PacketHandler<TIn, TOut>
 		if (self is null) { Trace.Fail("SocketEvent self is null"); return; }
 
 		bool isAsync;
-		using (MappedDiagnosticsLogicalContext.SetScoped("BotId", self.id))
+		using (ScopeContext.PushProperty("BotId", self.id))
 		{
 			do
 			{

@@ -30,6 +30,10 @@
 		<GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
 		<GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+
+		<!-- Trimming-->
+		<PublishTrimmed>false</PublishTrimmed>
+		<TrimMode>partial</TrimMode>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -46,15 +50,16 @@
 		<PackageReference Include="Nett" Version="0.15.0" />
 		<PackageReference Include="PlaylistsNET" Version="1.4.1" />
 		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
+		<!--<PackageReference Include="Nerdbank.GitVersioning" Version="3.6.139">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>-->
 		<TrimmerRootAssembly Include="System.Text.Json" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<EmbeddedResource Include="Resources\DefaultRights.toml" />
 		<EmbeddedResource Include="Media\SleepingKitty.png" />
-		<EmbeddedResource Include="Resources\NLog.config">
-			<SubType>Designer</SubType>
-		</EmbeddedResource>
+		<EmbeddedResource Include="Resources\NLog.config" />
 	</ItemGroup>
 
 	<ItemGroup>

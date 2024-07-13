@@ -1,0 +1,140 @@
+name: Build TS3AudioBot
+
+on:
+  push:
+    branches: [ "master", "develop" ]
+
+jobs:
+  test_tsab:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: |
+        dotnet build TSLibAutogen -c Release --no-restore
+        dotnet build -c Release --no-restore
+
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+
+  build_frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 22
+
+    - name: Install yarn
+      run: npm install -g yarn
+
+    - name: Install dependencies
+      run: |
+        cd WebInterface
+        yarn install --frozen-lockfile
+
+    - name: Build
+      run: |
+        cd WebInterface
+        yarn run build
+
+    - name: Archive
+      uses: actions/upload-artifact@v4
+      with:
+        name: webinterface
+        path: WebInterface/dist
+
+  publish:
+    needs: [ test_tsab, build_frontend ]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        rid: [ linux-x64, linux-arm, linux-arm64, win-x64 ]
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Publish
+      run: |
+        dotnet publish TS3AudioBot\TS3AudioBot.csproj \
+          -c Release \
+          --framework net8.0 \
+          --self-contained \
+          --runtime ${{ matrix.rid }} \
+          -p:PublishSingleFile=true,IncludeNativeLibrariesForSelfExtract=true \
+          -o publish
+
+    - name: Fetch WebInterface
+      uses: actions/download-artifact@v4
+      with:
+        name: webinterface
+        path: publish/WebInterface
+
+    - name: Archive
+      uses: actions/upload-artifact@v4
+      with:
+        name: ts3audiobot-${{ matrix.rid }}
+        path: publish
+
+    - name: Install nbgv
+      run: dotnet tool install --global nbgv
+
+    - name: Get Version
+      id: get_version
+      run: |
+        cd publish
+        TSABVERSION=$(nbgv get-version -p TS3AudioBot -v NuGetPackageVersion)
+        TSABBRANCH="${{ github.head_ref || github.ref_name }}"
+        TASBBUILDSUFFIX=$(echo ${{ matrix.rid }} | tr '-' '_')
+        echo "TSABVERSION=$TSABVERSION" >> $GITHUB_ENV
+        echo "TSABBRANCH=$TSABBRANCH" >> $GITHUB_ENV
+        echo "TASBBUILD=${TSABBRANCH}_${TASBBUILDSUFFIX}" >> $GITHUB_ENV
+
+    - name: Upload to Splamy.de
+      if: startsWith(matrix.rid, 'win-')
+      run: |
+        cd publish
+        zip -r TS3AudioBot.zip .
+        curl \
+          -X PUT \
+          -H "Content-Type: application/zip" \
+          -H "Authorization: ${{ secrets.UPLOAD_TOKEN }}" \
+          --data-binary @TS3AudioBot.zip \
+          "https://splamy.de/api/nightly/projects/ts3ab/${TASBBUILD}?filename=TS3AudioBot.zip&commit=${{ github.sha }}&version=${TSABVERSION}"
+
+    - name: Upload to Splamy.de
+      if: startsWith(matrix.rid, 'linux-')
+      run: |
+        cd publish
+        chmod 755 TS3AudioBot
+        tar -czf TS3AudioBot.tar.gz .
+        curl \
+          -X PUT \
+          -H "Content-Type: application/gzip" \
+          -H "Authorization: ${{ secrets.UPLOAD_TOKEN }}" \
+          --data-binary @TS3AudioBot.tar.gz \
+          "https://splamy.de/api/nightly/projects/ts3ab/${TASBBUILD}?filename=TS3AudioBot.tar.gz&commit=${{ github.sha }}&version=$TSABVERSION"
