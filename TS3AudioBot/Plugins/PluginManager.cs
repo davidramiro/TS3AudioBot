@@ -38,8 +38,8 @@ public sealed class PluginManager : IDisposable
 	private readonly CoreInjector coreInjector;
 	private readonly ResourceResolver resourceResolver;
 	private readonly BotManager botManager;
-	private readonly Dictionary<string, Plugin> plugins = new();
-	private readonly HashSet<int> usedIds = new();
+	private readonly Dictionary<string, Plugin> plugins = [];
+	private readonly HashSet<int> usedIds = [];
 	private readonly object pluginsLock = new();
 
 	// TODO remove after plugin rework

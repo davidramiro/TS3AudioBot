@@ -19,7 +19,7 @@ namespace TS3AudioBot.Config;
 public partial class ConfRoot
 {
 	private string? fileName;
-	private readonly Dictionary<string, ConfBot> botConfCache = new();
+	private readonly Dictionary<string, ConfBot> botConfCache = [];
 
 	public static ConfRoot? Open(string file)
 	{

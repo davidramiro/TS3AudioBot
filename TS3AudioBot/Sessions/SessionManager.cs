@@ -18,7 +18,7 @@ public class SessionManager
 	private static readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
 
 	// Map: Id => UserSession
-	private readonly Dictionary<ClientId, UserSession> openSessions = new();
+	private readonly Dictionary<ClientId, UserSession> openSessions = [];
 
 	public UserSession GetOrCreateSession(ClientId clientId)
 	{

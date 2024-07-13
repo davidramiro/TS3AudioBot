@@ -55,7 +55,7 @@ public class BotCommand : FunctionCommand
 	{
 		InvokeName = buildInfo.CommandData.CommandNameSpace;
 		helpLookupName = buildInfo.CommandData.OverrideHelpName ?? ("cmd_" + InvokeName.Replace(" ", "_") + "_help");
-		requiredRights = new[] { "cmd." + string.Join(".", InvokeName.Split(' ')) };
+		requiredRights = ["cmd." + string.Join(".", InvokeName.Split(' '))];
 		UsageList = buildInfo.UsageList;
 		// Serialization
 		Return = UnwrapReturnType(CommandReturn).Name;
@@ -168,6 +168,6 @@ public class CommandBuildInfo
 		if (!m.IsStatic && p is null)
 			throw new ArgumentException("Got instance method without accociated object");
 		CommandData = comAtt;
-		UsageList = Array.Empty<UsageAttribute>();
+		UsageList = [];
 	}
 }

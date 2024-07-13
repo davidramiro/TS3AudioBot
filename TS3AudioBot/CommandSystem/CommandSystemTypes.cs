@@ -20,7 +20,7 @@ public static class CommandSystemTypes
 	/// The order of types, the first item has the highest priority,
 	/// items not in the list have higher priority as they are special types.
 	/// </summary>
-	public static readonly Type[] TypeOrder = {
+	public static readonly Type[] TypeOrder = [
 			typeof(bool),
 			typeof(sbyte), typeof(byte),
 			typeof(short), typeof(ushort),
@@ -28,14 +28,15 @@ public static class CommandSystemTypes
 			typeof(long), typeof(ulong),
 			typeof(float), typeof(double),
 			typeof(TimeSpan), typeof(DateTime),
-			typeof(string) };
-	public static readonly HashSet<Type> BasicTypes = new(TypeOrder);
+			typeof(string) ];
+	public static readonly HashSet<Type> BasicTypes = [..TypeOrder];
 
-	public static readonly HashSet<Type> AdvancedTypes = new(new Type[] {
+	public static readonly HashSet<Type> AdvancedTypes = [
 			typeof(IAudioResourceResult),
 			typeof(System.Collections.IEnumerable),
 			typeof(ResourceFactories.AudioResource),
 			typeof(History.AudioLogEntry),
 			typeof(Playlists.PlaylistItem),
-		}.Concat(TsTypes.All));
+			.. TsTypes.All
+		];
 }

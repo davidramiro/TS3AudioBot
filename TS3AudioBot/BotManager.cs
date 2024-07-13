@@ -23,7 +23,7 @@ public class BotManager
 {
 	private static readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
 
-	private List<Bot?>? activeBots = new();
+	private List<Bot?>? activeBots = [];
 	private readonly object lockObj = new();
 
 	private readonly ConfRoot confRoot;
@@ -276,7 +276,7 @@ public class BotManager
 		lock (lockObj)
 		{
 			if (activeBots is null)
-				return Array.Empty<BotInfo>();
+				return [];
 			return activeBots.Where(x => x != null).Select(x => x!.GetInfo()).ToArray();
 		}
 	}

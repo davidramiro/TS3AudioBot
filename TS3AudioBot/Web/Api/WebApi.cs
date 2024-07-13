@@ -110,7 +110,7 @@ public sealed class WebApi
 		{
 			stats.TrackCommandApiCall();
 			Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
-			var res = await command.Execute(execInfo, Array.Empty<ICommand>());
+			var res = await command.Execute(execInfo, []);
 
 			if (res is null)
 			{

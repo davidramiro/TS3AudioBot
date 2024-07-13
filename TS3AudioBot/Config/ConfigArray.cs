@@ -37,7 +37,7 @@ public class ConfigArray<T> : ConfigValue<IReadOnlyList<T>> where T : notnull
 		try
 		{
 			var value = JsonSerializer.Deserialize<T[]>(ref reader, options);
-			value ??= Array.Empty<T>();
+			value ??= [];
 			Value = value;
 			return R.Ok;
 		}

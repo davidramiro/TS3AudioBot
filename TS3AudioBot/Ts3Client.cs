@@ -39,7 +39,7 @@ public sealed class Ts3Client
 	public event AsyncEventHandler<AloneChanged>? OnAloneChanged;
 	public event EventHandler? OnWhisperNoTarget;
 
-	private static readonly string[] QuitMessages = {
+	private static readonly string[] QuitMessages = [
 			"I'm outta here", "You're boring", "Have a nice day", "Bye", "Good night",
 			"Nothing to do here", "Taking a break", "Lorem ipsum dolor sit amet…",
 			"Nothing can hold me back", "It's getting quiet", "Drop the bazzzzzz",
@@ -48,7 +48,7 @@ public sealed class Ts3Client
 			"connection lost", "disconnected", "Requested by API.",
 			"Robert'); DROP TABLE students;--", "It works!! No, wait...",
 			"Notice me, senpai", ":wq", "Soon™", "It's not a bug, it's a feature"
-		};
+		];
 
 	private bool closed = false;
 	private int reconnectCounter;
@@ -57,13 +57,13 @@ public sealed class Ts3Client
 	private readonly ConfBot config;
 	private readonly TsFullClient ts3FullClient;
 	private IdentityData? identity;
-	private List<ClientList> clientbuffer = new();
+	private List<ClientList> clientbuffer = [];
 	private bool clientbufferOutdated = true;
 	private readonly TimedCache<ClientDbId, ClientDbInfo> clientDbNames = new();
 	private readonly LruCache<Uid, ClientDbId> dbIdCache = new(128);
 	private bool alone = true;
 	private ChannelId? reconnectChannel = null;
-	private ClientId[] ownChannelClients = Array.Empty<ClientId>();
+	private ClientId[] ownChannelClients = [];
 
 	public bool Connected => ts3FullClient.Connected;
 	public TsConst ServerConstants => ts3FullClient.ServerConstants;
@@ -323,7 +323,7 @@ public sealed class Ts3Client
 		ServerGroupId[] groups;
 		bool groupsOk;
 		try { groups = await GetClientServerGroups(myDbId); groupsOk = true; }
-		catch { groups = Array.Empty<ServerGroupId>(); groupsOk = false; }
+		catch { groups = []; groupsOk = false; }
 
 		// Add self to master group (via token)
 		if (!string.IsNullOrEmpty(key))
@@ -369,74 +369,74 @@ public sealed class Ts3Client
 
 		// Add various rights to the bot group
 		var permresult = await ts3FullClient.ServerGroupAddPerm((ServerGroupId)config.BotGroupId.Value,
-			new[] {
-					TsPermission.i_client_whisper_power, // + Required for whisper channel playing
-					TsPermission.i_client_private_textmessage_power, // + Communication
-					TsPermission.b_client_server_textmessage_send, // + Communication
-					TsPermission.b_client_channel_textmessage_send, // + Communication
+			[
+				TsPermission.i_client_whisper_power, // + Required for whisper channel playing
+				TsPermission.i_client_private_textmessage_power, // + Communication
+				TsPermission.b_client_server_textmessage_send, // + Communication
+				TsPermission.b_client_channel_textmessage_send, // + Communication
 
-					TsPermission.b_client_modify_dbproperties, // ? Dont know but seems also required for the next one
-					TsPermission.b_client_modify_description, // + Used to change the description of our bot
-					TsPermission.b_client_info_view, // (+) only used as fallback usually
-					TsPermission.b_virtualserver_client_list, // ? Dont know but seems also required for the next one
+				TsPermission.b_client_modify_dbproperties, // ? Dont know but seems also required for the next one
+				TsPermission.b_client_modify_description, // + Used to change the description of our bot
+				TsPermission.b_client_info_view, // (+) only used as fallback usually
+				TsPermission.b_virtualserver_client_list, // ? Dont know but seems also required for the next one
 
-					TsPermission.i_channel_subscribe_power, // + Required to find user to communicate
-					TsPermission.b_virtualserver_client_dbinfo, // + Required to get basic user information for history, api, etc...
-					TsPermission.i_client_talk_power, // + Required for normal channel playing
-					TsPermission.b_client_modify_own_description, // ? not sure if this makes b_client_modify_description superfluous
+				TsPermission.i_channel_subscribe_power, // + Required to find user to communicate
+				TsPermission.b_virtualserver_client_dbinfo, // + Required to get basic user information for history, api, etc...
+				TsPermission.i_client_talk_power, // + Required for normal channel playing
+				TsPermission.b_client_modify_own_description, // ? not sure if this makes b_client_modify_description superfluous
 
-					TsPermission.b_group_is_permanent, // + Group should stay even if bot disconnects
-					TsPermission.i_client_kick_from_channel_power, // + Optional for kicking
-					TsPermission.i_client_kick_from_server_power, // + Optional for kicking
-					TsPermission.i_client_max_clones_uid, // + In case that bot times out and tries to join again
+				TsPermission.b_group_is_permanent, // + Group should stay even if bot disconnects
+				TsPermission.i_client_kick_from_channel_power, // + Optional for kicking
+				TsPermission.i_client_kick_from_server_power, // + Optional for kicking
+				TsPermission.i_client_max_clones_uid, // + In case that bot times out and tries to join again
 
-					TsPermission.b_client_ignore_antiflood, // + The bot should be resistant to forced spam attacks
-					TsPermission.b_channel_join_ignore_password, // + The noble bot will not abuse this power
-					TsPermission.b_channel_join_permanent, // + Allow joining to all channel even on strict servers
-					TsPermission.b_channel_join_semi_permanent, // + Allow joining to all channel even on strict servers
+				TsPermission.b_client_ignore_antiflood, // + The bot should be resistant to forced spam attacks
+				TsPermission.b_channel_join_ignore_password, // + The noble bot will not abuse this power
+				TsPermission.b_channel_join_permanent, // + Allow joining to all channel even on strict servers
+				TsPermission.b_channel_join_semi_permanent, // + Allow joining to all channel even on strict servers
 
-					TsPermission.b_channel_join_temporary, // + Allow joining to all channel even on strict servers
-					TsPermission.b_channel_join_ignore_maxclients, // + Allow joining full channels
-					TsPermission.i_channel_join_power, // + Allow joining to all channel even on strict servers
-					TsPermission.b_client_permissionoverview_view, // + Scanning through given perms for rights system
+				TsPermission.b_channel_join_temporary, // + Allow joining to all channel even on strict servers
+				TsPermission.b_channel_join_ignore_maxclients, // + Allow joining full channels
+				TsPermission.i_channel_join_power, // + Allow joining to all channel even on strict servers
+				TsPermission.b_client_permissionoverview_view, // + Scanning through given perms for rights system
 
-					TsPermission.i_client_max_avatar_filesize, // + Uploading thumbnails as avatar
-					TsPermission.b_client_use_channel_commander, // + Enable channel commander
-					TsPermission.b_client_ignore_bans, // + The bot should be resistant to bans
-					TsPermission.b_client_ignore_sticky, // + Should skip weird movement restrictions
+				TsPermission.i_client_max_avatar_filesize, // + Uploading thumbnails as avatar
+				TsPermission.b_client_use_channel_commander, // + Enable channel commander
+				TsPermission.b_client_ignore_bans, // + The bot should be resistant to bans
+				TsPermission.b_client_ignore_sticky, // + Should skip weird movement restrictions
 
-					TsPermission.i_client_max_channel_subscriptions, // + Required to find user to communicate
-			},
-			new[] {
-					max, max,   1,   1,
-					  1,   1,   1,   1,
-					max,   1, max,   1,
-					  1, max, max,   4,
-					  1,   1,   1,   1,
-					  1,   1, max,   1,
-					ava,   1,   1,   1,
-					 -1,
-			},
-			new[] {
-					false, false, false, false,
-					false, false, false, false,
-					false, false, false, false,
-					false, false, false, false,
-					false, false, false, false,
-					false, false, false, false,
-					false, false, false, false,
-					false,
-			},
-			new[] {
-					false, false, false, false,
-					false, false, false, false,
-					false, false, false, false,
-					false, false, false, false,
-					false, false, false, false,
-					false, false, false, false,
-					false, false, false, false,
-					false,
-			});
+				TsPermission.i_client_max_channel_subscriptions, // + Required to find user to communicate
+			],
+			[
+				max, max,   1,   1,
+					1,   1,   1,   1,
+				max,   1, max,   1,
+					1, max, max,   4,
+					1,   1,   1,   1,
+					1,   1, max,   1,
+				ava,   1,   1,   1,
+					-1,
+			],
+			[
+				false, false, false, false,
+				false, false, false, false,
+				false, false, false, false,
+				false, false, false, false,
+				false, false, false, false,
+				false, false, false, false,
+				false, false, false, false,
+				false,
+			],
+			[
+				false, false, false, false,
+				false, false, false, false,
+				false, false, false, false,
+				false, false, false, false,
+				false, false, false, false,
+				false, false, false, false,
+				false, false, false, false,
+				false,
+			]);
 
 		if (!permresult)
 			Log.Error("Adding permissions failed ({0})", permresult.Error.ErrorFormat());
@@ -478,7 +478,7 @@ public sealed class Ts3Client
 		dbIdCache.Clear();
 		clientDbNames.Clear();
 		alone = true;
-		ownChannelClients = Array.Empty<ClientId>();
+		ownChannelClients = [];
 	}
 
 	#endregion

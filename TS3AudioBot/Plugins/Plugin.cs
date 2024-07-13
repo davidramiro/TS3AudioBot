@@ -35,7 +35,7 @@ internal class Plugin
 
 	private byte[]? md5CacheSum;
 	private PluginObjects? corePlugin;
-	private readonly Dictionary<Bot, PluginObjects> botPluginList = new();
+	private readonly Dictionary<Bot, PluginObjects> botPluginList = [];
 	private IResolver? factoryObject;
 	private Type? pluginType;
 	private PluginStatus status;

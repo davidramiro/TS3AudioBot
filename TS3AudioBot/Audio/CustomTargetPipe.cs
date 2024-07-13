@@ -53,10 +53,10 @@ internal class CustomTargetPipe : IVoiceTarget, IAudioPassiveConsumer
 		}
 	}
 
-	private readonly Dictionary<ChannelId, bool> channelSubscriptionsSetup = new();
-	private readonly HashSet<ClientId> clientSubscriptionsSetup = new();
-	private ChannelId[] channelSubscriptionsCache = Array.Empty<ChannelId>();
-	private ClientId[] clientSubscriptionsCache = Array.Empty<ClientId>();
+	private readonly Dictionary<ChannelId, bool> channelSubscriptionsSetup = [];
+	private readonly HashSet<ClientId> clientSubscriptionsSetup = [];
+	private ChannelId[] channelSubscriptionsCache = [];
+	private ClientId[] clientSubscriptionsCache = [];
 	private bool subscriptionSetupChanged;
 	private readonly object subscriptionLockObj = new();
 

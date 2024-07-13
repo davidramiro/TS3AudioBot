@@ -14,25 +14,17 @@ using TS3AudioBot.Localization;
 
 namespace TS3AudioBot.Playlists;
 
-public class Playlist : IReadOnlyPlaylist
+public class Playlist(IEnumerable<PlaylistItem> items) : IReadOnlyPlaylist
 {
 	private const int MaxSongs = 1000;
-	private string title;
+	private string title = string.Empty;
 	public string Title { get => title; set => SetTitle(value); }
-	private readonly List<PlaylistItem> items;
+	private readonly List<PlaylistItem> items = items?.ToList() ?? throw new ArgumentNullException(nameof(items));
 	public IReadOnlyList<PlaylistItem> Items => items;
 
 	public PlaylistItem this[int i] => items[i];
 
-	public Playlist() :
-		this(new List<PlaylistItem>())
-	{ }
-
-	public Playlist(List<PlaylistItem> items)
-	{
-		this.items = items ?? throw new ArgumentNullException(nameof(items));
-		title = string.Empty;
-	}
+	public Playlist() : this([]) { }
 
 	public Playlist SetTitle(string newTitle)
 	{

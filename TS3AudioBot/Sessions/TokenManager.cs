@@ -21,7 +21,7 @@ public class TokenManager
 
 	private const string ApiTokenTable = "apiToken";
 	private readonly ILiteCollection<DbApiToken> dbTokenList;
-	private readonly Dictionary<string, ApiToken> dbTokenCache = new();
+	private readonly Dictionary<string, ApiToken> dbTokenCache = [];
 
 	public TokenManager(DbStore database)
 	{

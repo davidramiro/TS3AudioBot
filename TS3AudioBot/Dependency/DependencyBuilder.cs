@@ -34,7 +34,7 @@ public sealed class BotInjector : ChainedInjector<BasicInjector>
 
 	public void HideParentModule(Type type)
 	{
-		hiddenParentModules ??= new HashSet<Type>();
+		hiddenParentModules ??= [];
 		hiddenParentModules.Add(type);
 	}
 	public void HideParentModule<T>() => HideParentModule(typeof(T));

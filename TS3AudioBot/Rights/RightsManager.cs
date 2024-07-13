@@ -34,7 +34,7 @@ public class RightsManager
 	private bool needsRecalculation;
 	private readonly ConfRights config;
 	private RightsRule? rootRule;
-	private HashSet<string> registeredRights = new();
+	private HashSet<string> registeredRights = [];
 	private readonly object rootRuleLock = new();
 
 	// Required Matcher Data:
@@ -43,7 +43,7 @@ public class RightsManager
 	// This will save us from making unnecessary query calls.
 	private bool needsAvailableGroups = true;
 	private bool needsAvailableChanGroups = true;
-	private TsPermission[] needsPermOverview = Array.Empty<TsPermission>();
+	private TsPermission[] needsPermOverview = [];
 
 	public RightsManager(ConfRights config)
 	{
@@ -145,7 +145,7 @@ public class RightsManager
 				}
 
 				execCtx.ChannelGroupId = channelGroup;
-				execCtx.ServerGroups = serverGroups ?? Array.Empty<ServerGroupId>();
+				execCtx.ServerGroups = serverGroups ?? [];
 
 				if (needsPermOverview.Length > 0 && databaseId != null && channelId != null)
 				{
@@ -252,7 +252,7 @@ public class RightsManager
 			{
 				needsAvailableChanGroups = ctx.NeedsAvailableChanGroups;
 				needsAvailableGroups = ctx.NeedsAvailableGroups;
-				needsPermOverview = ctx.NeedsPermOverview.Count > 0 ? ctx.NeedsPermOverview.ToArray() : Array.Empty<TsPermission>();
+				needsPermOverview = ctx.NeedsPermOverview.Count > 0 ? ctx.NeedsPermOverview.ToArray() : [];
 				needsRecalculation = false;
 				return ctx.RootRule;
 			}
@@ -324,7 +324,7 @@ public class RightsManager
 				if (adminUid is null)
 					return;
 
-				settings.AdminUids = new[] { adminUid };
+				settings.AdminUids = [adminUid];
 			}
 		}
 
@@ -592,7 +592,7 @@ public class RightsManager
 				currentlyReached.Add(item);
 
 				item.MergeGroups(item.Includes);
-				item.Includes = Array.Empty<RightsGroup>();
+				item.Includes = [];
 			}
 			else
 			{
@@ -611,7 +611,7 @@ public class RightsManager
 		if (root.Parent != null)
 			root.MergeGroups(root.Parent);
 		root.MergeGroups(root.Includes);
-		root.Includes = Array.Empty<RightsGroup>();
+		root.Includes = [];
 
 		foreach (var child in root.ChildrenRules)
 			FlattenRules(child);

@@ -31,9 +31,9 @@ public class CommandManager
 	private static readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
 	private static readonly Regex CommandNamespaceValidator = new(@"^[a-z\d]+( [a-z\d]+)*$", Util.DefaultRegexConfig & ~RegexOptions.IgnoreCase);
 
-	private readonly Dictionary<string, AliasCommand> aliasPaths = new();
-	private readonly HashSet<string> commandPaths = new();
-	private readonly HashSet<ICommandBag> baggedCommands = new();
+	private readonly Dictionary<string, AliasCommand> aliasPaths = [];
+	private readonly HashSet<string> commandPaths = [];
+	private readonly HashSet<ICommandBag> baggedCommands = [];
 	private readonly RightsManager? rightsManager;
 
 	public CommandGroup RootGroup { get; } = new();
@@ -386,7 +386,7 @@ public class CommandManager
 	{
 		var ast = CommandParser.ParseCommandRequest(command);
 		var cmd = AstToCommandResult(ast);
-		return new ICmdResult(await cmd.Execute(info, Array.Empty<ICommand>()));
+		return new ICmdResult(await cmd.Execute(info, []));
 	}
 
 	public static async ValueTask<ICmdResult> Execute(ExecutionInformation info, IReadOnlyList<ICommand> arguments)

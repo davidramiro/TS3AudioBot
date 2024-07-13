@@ -27,17 +27,17 @@ internal class ParseContext
 	public RightsRule RootRule { get; }
 	public bool NeedsAvailableGroups { get; set; } = false;
 	public bool NeedsAvailableChanGroups { get; set; } = false;
-	public HashSet<TsPermission> NeedsPermOverview { get; set; } = new();
+	public HashSet<TsPermission> NeedsPermOverview { get; set; } = [];
 
 	public ParseContext(ISet<string> registeredRights)
 	{
-		Declarations = new List<RightsDecl>();
+		Declarations = [];
 		RootRule = new RightsRule();
-		Errors = new List<string>();
-		Warnings = new List<string>();
+		Errors = [];
+		Warnings = [];
 		RegisteredRights = registeredRights;
-		Groups = Array.Empty<RightsGroup>();
-		Rules = Array.Empty<RightsRule>();
+		Groups = [];
+		Rules = [];
 	}
 
 	public void SplitDeclarations()

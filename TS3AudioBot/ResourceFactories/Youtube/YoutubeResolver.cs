@@ -413,7 +413,7 @@ public sealed class YoutubeResolver : IResourceResolver, IPlaylistResolver, IThu
 				+ "&q=" + Uri.EscapeDataString(keyword)
 				+ "&maxResults=" + maxResults
 				+ "&key=" + YoutubeProjectId).AsJson<JsonSearchListResponse>(cancellationToken);
-		if (parsed.items is null) { Log.Debug("Youtube returned items:null"); return Array.Empty<AudioResource>(); }
+		if (parsed.items is null) { Log.Debug("Youtube returned items:null"); return []; }
 
 		return parsed.items.Select(item => new AudioResource(
 			item.id?.videoId ?? throw new NullReferenceException("item.id.videoId was null"),
@@ -424,7 +424,7 @@ public sealed class YoutubeResolver : IResourceResolver, IPlaylistResolver, IThu
 	public async Task<IList<AudioResource>> SearchYoutubeDlAsync(string keyword, CancellationToken cancellationToken)
 	{
 		var search = await YoutubeDlHelper.GetSearchAsync(keyword, cancellationToken);
-		if (search.entries is null) { Log.Debug("Youtube-dl returned entries:null"); return Array.Empty<AudioResource>(); }
+		if (search.entries is null) { Log.Debug("Youtube-dl returned entries:null"); return []; }
 
 		return search.entries
 			.Where(entry => entry.id != null)

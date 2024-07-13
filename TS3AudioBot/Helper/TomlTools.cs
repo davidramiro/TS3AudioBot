@@ -42,7 +42,7 @@ public static class TomlTools
 		else if (tomlObj.TryGetValue(out T retSingleVal))
 #pragma warning restore CS8600
 		{
-			value = new[] { retSingleVal };
+			value = [retSingleVal];
 			return true;
 		}
 		value = null;
@@ -241,7 +241,7 @@ public static class TomlTools
 	private static IEnumerable<TomlObject> ProcessIdentifier(TomlObject obj, ReadOnlyMemory<char> pathM)
 	{
 		if (pathM.IsEmpty)
-			return Enumerable.Empty<TomlObject>();
+			return [];
 
 		var path = pathM.Span;
 		switch (path[0])
@@ -289,7 +289,7 @@ public static class TomlTools
 				}
 				var item = obj.GetSubItemByName(subItemName);
 				if (item is null)
-					return Enumerable.Empty<TomlObject>();
+					return [];
 
 				if (cont)
 				{
@@ -300,7 +300,7 @@ public static class TomlTools
 					else
 						throw new ArgumentException("Invalid expression name identifier", nameof(pathM));
 				}
-				return new[] { item };
+				return [item];
 			}
 		}
 	}
@@ -340,7 +340,7 @@ public static class TomlTools
 				{
 					var ret = obj.GetArrayItemByIndex(indexer);
 					if (ret is null)
-						return Enumerable.Empty<TomlObject>();
+						return [];
 
 					if (cont)
 					{
@@ -351,7 +351,7 @@ public static class TomlTools
 						else
 							throw new ArgumentException("Invalid expression after array indexer", nameof(pathM));
 					}
-					return new[] { ret };
+					return [ret];
 				}
 			}
 		}
@@ -408,7 +408,7 @@ public static class TomlTools
 			return ((TomlArray)obj).Items;
 		else if (obj.TomlType == TomlObjectType.ArrayOfTables)
 			return ((TomlTableArray)obj).Items;
-		return Enumerable.Empty<TomlObject>();
+		return [];
 	}
 
 	private static TomlObject? GetSubItemByName(this TomlObject obj, ReadOnlySpan<char> name)
@@ -422,7 +422,7 @@ public static class TomlTools
 	{
 		if (obj.TomlType == TomlObjectType.Table)
 			return ((TomlTable)obj).Values;
-		return Enumerable.Empty<TomlObject>();
+		return [];
 	}
 
 	// *** Toml Serializer ***

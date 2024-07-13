@@ -155,7 +155,7 @@ public class FunctionCommand : ICommand
 			case ParamKind.NormalTailString:
 				if (takenArguments >= arguments.Count) { parameters[p] = GetDefault(argType); break; }
 
-				var argResultP = await arguments[takenArguments].Execute(info, Array.Empty<ICommand>());
+				var argResultP = await arguments[takenArguments].Execute(info, []);
 				if (arg.Kind == ParamKind.NormalTailString && argResultP is TailString tailString)
 					parameters[p] = tailString.Tail;
 				else
@@ -171,7 +171,7 @@ public class FunctionCommand : ICommand
 				var args = Array.CreateInstance(typeArr, arguments.Count - takenArguments);
 				for (int i = 0; i < args.Length; i++, takenArguments++)
 				{
-					var argResultA = await arguments[takenArguments].Execute(info, Array.Empty<ICommand>());
+					var argResultA = await arguments[takenArguments].Execute(info, []);
 					var convResult = ConvertParam(argResultA, typeArr, arg, filterLazy);
 					args.SetValue(convResult, i);
 				}
@@ -260,7 +260,7 @@ public class FunctionCommand : ICommand
 							try
 							{
 								var tryFromToObjectWrapper = new DynamicMethod(
-									"TryFromToObjectWrapper", typeof(object), new[] { typeof(object) }, typeof(FunctionCommand).Module);
+									"TryFromToObjectWrapper", typeof(object), [typeof(object)], typeof(FunctionCommand).Module);
 								var il = tryFromToObjectWrapper.GetILGenerator();
 								il.Emit(OpCodes.Ldarg_0);
 								il.Emit(OpCodes.Call, method);

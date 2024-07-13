@@ -105,7 +105,7 @@ public class ConfPluginsLoad : ConfigTable
 
 public class ConfWeb : ConfigTable
 {
-	public ConfigArray<string> Hosts { get; } = new("hosts", new[] { "*" },
+	public ConfigArray<string> Hosts { get; } = new("hosts", ["*"],
 		"An array of all urls the web api should be possible to be accessed with.");
 	public ConfigValue<ushort> Port { get; } = new("port", 58913,
 		"The port for the web server.");
@@ -201,11 +201,11 @@ public class ConfConnect : ConfigTable
 
 public class ConfReconnect : ConfigTable
 {
-	public ConfigArray<string> OnTimeout { get; } = new("ontimeout", new[] { "1s", "2s", "5s", "10s", "30s", "1m", "5m", "repeat last" });
-	public ConfigArray<string> OnKick { get; } = new("onkick", Array.Empty<string>());
-	public ConfigArray<string> OnBan { get; } = new("onban", Array.Empty<string>());
-	public ConfigArray<string> OnError { get; } = new("onerror", new[] { "30s", "repeat last" });
-	public ConfigArray<string> OnShutdown { get; } = new("onshutdown", new[] { "5m" });
+	public ConfigArray<string> OnTimeout { get; } = new("ontimeout", ["1s", "2s", "5s", "10s", "30s", "1m", "5m", "repeat last"]);
+	public ConfigArray<string> OnKick { get; } = new("onkick", []);
+	public ConfigArray<string> OnBan { get; } = new("onban", []);
+	public ConfigArray<string> OnError { get; } = new("onerror", ["30s", "repeat last"]);
+	public ConfigArray<string> OnShutdown { get; } = new("onshutdown", ["5m"]);
 	//public ConfigValue<int> MaxReconnect { get; } = new ConfigValue<int>("max_combined_reconnects", -1, "Each reconnect kind has an own counter and resets when ");
 }
 

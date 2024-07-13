@@ -29,9 +29,9 @@ public sealed class PlaylistIO : IDisposable
 {
 	private readonly ConfBot confBot;
 	private static readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
-	private readonly Dictionary<string, PlaylistMeta> playlistInfo = new();
+	private readonly Dictionary<string, PlaylistMeta> playlistInfo = [];
 	private readonly LruCache<string, Playlist> playlistCache = new(16);
-	private readonly HashSet<string> dirtyList = new();
+	private readonly HashSet<string> dirtyList = [];
 	private readonly ReaderWriterLockSlim rwLock = new();
 	private bool reloadFolderCache = true;
 	private const int FileVersion = 3;
@@ -127,7 +127,7 @@ public sealed class PlaylistIO : IDisposable
 		string? line;
 		while ((line = sr.ReadLine()) != null)
 		{
-			var kvp = line.Split(new[] { ':' }, 2);
+			var kvp = line.Split([':'], 2);
 			if (kvp.Length < 2) continue;
 
 			string key = kvp[0];
@@ -138,7 +138,7 @@ public sealed class PlaylistIO : IDisposable
 			// Legacy entry
 			case "rs":
 				{
-					var rskvp = value.Split(new[] { ':' }, 2);
+					var rskvp = value.Split([':'], 2);
 					if (kvp.Length < 2)
 					{
 						Log.Warn("Erroneous playlist split count: {0}", line);
@@ -146,7 +146,7 @@ public sealed class PlaylistIO : IDisposable
 					}
 					string content = rskvp[1];
 
-					var rsSplit = content.Split(new[] { ',' }, 3);
+					var rsSplit = content.Split([','], 3);
 					if (rsSplit.Length < 3)
 						goto default;
 					if (!string.IsNullOrWhiteSpace(rsSplit[0]))
@@ -192,7 +192,7 @@ public sealed class PlaylistIO : IDisposable
 			if (string.IsNullOrEmpty(line))
 				break;
 
-			var kvp = line.Split(new[] { ':' }, 2);
+			var kvp = line.Split([':'], 2);
 			if (kvp.Length < 2) continue;
 
 			string key = kvp[0];

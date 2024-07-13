@@ -61,7 +61,7 @@ public abstract class ConfigPart : IJsonSerializable
 	public IEnumerable<ConfigPart> ByPath(string path)
 	{
 		if (string.IsNullOrEmpty(path))
-			return new[] { this };
+			return [this];
 		var pathM = path.AsMemory();
 		return ProcessIdentifier(pathM);
 	}
@@ -70,7 +70,7 @@ public abstract class ConfigPart : IJsonSerializable
 	{
 		pathM = pathM.Trim();
 		if (pathM.IsEmpty)
-			return Enumerable.Empty<ConfigPart>();
+			return [];
 
 		var path = pathM.Span;
 		switch (path[0])
@@ -118,7 +118,7 @@ public abstract class ConfigPart : IJsonSerializable
 				}
 				var item = GetSubItemByName(subItemName);
 				if (item is null)
-					return Enumerable.Empty<ConfigPart>();
+					return [];
 
 				if (cont)
 				{
@@ -129,7 +129,7 @@ public abstract class ConfigPart : IJsonSerializable
 					else
 						throw new ArgumentException("Invalid expression name identifier", nameof(pathM));
 				}
-				return new[] { item };
+				return [item];
 			}
 		}
 	}
@@ -169,7 +169,7 @@ public abstract class ConfigPart : IJsonSerializable
 				{
 					var ret = GetArrayItemByIndex(indexer);
 					if (ret is null)
-						return Enumerable.Empty<ConfigPart>();
+						return [];
 
 					if (cont)
 					{
@@ -180,7 +180,7 @@ public abstract class ConfigPart : IJsonSerializable
 						else
 							throw new ArgumentException("Invalid expression after array indexer", nameof(pathM));
 					}
-					return new[] { ret };
+					return [ret];
 				}
 			}
 		}
@@ -221,7 +221,7 @@ public abstract class ConfigPart : IJsonSerializable
 	{
 		if (this is ConfigEnumerable table)
 			return table.GetAllChildren();
-		return Enumerable.Empty<ConfigPart>();
+		return [];
 	}
 
 	private ConfigPart? GetSubItemByName(ReadOnlySpan<char> name)
@@ -236,6 +236,6 @@ public abstract class ConfigPart : IJsonSerializable
 	{
 		if (this is ConfigEnumerable table)
 			return table.GetAllChildren();
-		return Enumerable.Empty<ConfigPart>();
+		return [];
 	}
 }

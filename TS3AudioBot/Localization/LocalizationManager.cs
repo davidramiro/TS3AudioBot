@@ -22,7 +22,7 @@ namespace TS3AudioBot.Localization;
 public class LocalizationManager
 {
 	private static readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
-	private static readonly Dictionary<string, LanguageData> loadedLanguage = new();
+	private static readonly Dictionary<string, LanguageData> loadedLanguage = [];
 	private static readonly DynamicResourceManager dynResMan;
 
 	private CultureInfo? culture;

@@ -26,10 +26,10 @@ public sealed class ResourceResolver : IDisposable
 {
 	private static readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
 
-	private readonly Dictionary<string, IResolver> allResolvers = new();
-	private readonly List<IPlaylistResolver> listResolvers = new();
-	private readonly List<IResourceResolver> resResolvers = new();
-	private readonly List<ISearchResolver> searchResolvers = new();
+	private readonly Dictionary<string, IResolver> allResolvers = [];
+	private readonly List<IPlaylistResolver> listResolvers = [];
+	private readonly List<IResourceResolver> resResolvers = [];
+	private readonly List<ISearchResolver> searchResolvers = [];
 
 	public ResourceResolver(ConfFactories conf)
 	{
@@ -144,7 +144,7 @@ public sealed class ResourceResolver : IDisposable
 			}
 			catch (AudioBotException ex)
 			{
-				(errors ??= new List<(string, AudioBotException)>()).Add((resolver.ResolverFor, ex));
+				(errors ??= []).Add((resolver.ResolverFor, ex));
 				Log.Trace("Resolver {0} failed, result: {1}", resolver.ResolverFor, ex.Message);
 			}
 		}
@@ -179,7 +179,7 @@ public sealed class ResourceResolver : IDisposable
 			}
 			catch (AudioBotException ex)
 			{
-				(errors ??= new List<(string, AudioBotException)>()).Add((resolver.ResolverFor, ex));
+				(errors ??= []).Add((resolver.ResolverFor, ex));
 				Log.Trace("Resolver {0} failed, result: {1}", resolver.ResolverFor, ex.Message);
 			}
 		}

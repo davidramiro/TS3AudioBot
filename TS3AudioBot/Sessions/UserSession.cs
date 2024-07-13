@@ -49,7 +49,7 @@ public class UserSession
 	public void Set<TData>(string key, TData data)
 	{
 		if (assocMap is null)
-			assocMap = new Dictionary<string, object>();
+			assocMap = [];
 
 		if (data is null)
 			assocMap.Remove(key);

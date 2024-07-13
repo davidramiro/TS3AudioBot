@@ -64,7 +64,7 @@ public class XspfPlaylist : IBasePlaylist
 	{
 	}
 
-	public List<string> GetTracksPaths() => PlaylistEntries?.SelectNotNull(x => x.Location?.FirstOrDefault()).ToList() ?? new List<string>();
+	public List<string> GetTracksPaths() => PlaylistEntries?.SelectNotNull(x => x.Location?.FirstOrDefault()).ToList() ?? [];
 }
 
 public class XspfPlaylistEntry

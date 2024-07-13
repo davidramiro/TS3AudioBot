@@ -49,7 +49,7 @@ public class AudioResource : IAudioResourceResult
 
 	public AudioResource Add(string key, string value)
 	{
-		AdditionalData ??= new Dictionary<string, string>();
+		AdditionalData ??= [];
 		AdditionalData.Add(key, value);
 		return this;
 	}

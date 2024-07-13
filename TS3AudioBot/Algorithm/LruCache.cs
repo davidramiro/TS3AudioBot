@@ -12,16 +12,11 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace TS3AudioBot.Algorithm;
 
-public class LruCache<TK, TV> where TK : notnull
+public class LruCache<TK, TV>(int capacity) where TK : notnull
 {
-	private readonly int maxCapacity;
-	private readonly Dictionary<TK, LinkedListNode<(TK key, TV value)>> cacheDict = new();
+	private readonly int maxCapacity = capacity;
+	private readonly Dictionary<TK, LinkedListNode<(TK key, TV value)>> cacheDict = [];
 	private readonly LinkedList<(TK key, TV value)> lruList = new();
-
-	public LruCache(int capacity)
-	{
-		maxCapacity = capacity;
-	}
 
 	public bool TryGetValue(TK key, [MaybeNullWhen(false)] out TV value)
 	{

@@ -19,7 +19,7 @@ public class OverloadedFunctionCommand : ICommand
 {
 	public List<FunctionCommand> Functions { get; }
 
-	public OverloadedFunctionCommand() : this(Array.Empty<FunctionCommand>()) { }
+	public OverloadedFunctionCommand() : this([]) { }
 	public OverloadedFunctionCommand(IEnumerable<FunctionCommand> functionsArg)
 	{
 		Functions = functionsArg.ToList();

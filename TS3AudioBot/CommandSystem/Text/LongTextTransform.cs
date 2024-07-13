@@ -17,7 +17,7 @@ namespace TS3AudioBot.CommandSystem.Text;
 
 public static class LongTextTransform
 {
-	private static ReadOnlySpan<byte> SeparatorWeight { get => new byte[] { (byte)'\n', (byte)',', (byte)' ' }; }
+	private static ReadOnlySpan<byte> SeparatorWeight => [(byte)'\n', (byte)',', (byte)' '];
 
 	public static IEnumerable<string> Split(string text, LongTextBehaviour behaviour, int maxMessageSize, int limit = int.MaxValue)
 	{
@@ -31,12 +31,12 @@ public static class LongTextTransform
 		// - All TS escaped characters are ASCII, so 1 byte character + 1 byte escape = 2
 		// so each char '?' => max( MAX_UTF8 = 3, MAX_ASCII_TS_ESCAPED = 2 ) = 3
 		if (text.Length * 3 <= maxMessageSize)
-			return new[] { text };
+			return [text];
 
 		// If the entire text UTF-8 encoded (*2 since each char could be TS-escaped) fits in one message we can return early.
 		var encodedSize = Tools.Utf8Encoder.GetByteCount(text);
 		if (encodedSize * 2 <= maxMessageSize)
-			return new[] { text };
+			return [text];
 
 		var list = new List<string>();
 		Span<int> splitIndices = stackalloc int[SeparatorWeight.Length];
@@ -58,7 +58,7 @@ public static class LongTextTransform
 				if (tokenCnt > maxMessageSize)
 				{
 					if (behaviour == LongTextBehaviour.Drop)
-						return Enumerable.Empty<string>();
+						return [];
 
 					filled = true;
 					break;

@@ -27,7 +27,7 @@ public static class Util
 
 	private static readonly Regex SafeFileNameMatcher = new(@"^[\w-_]+$", DefaultRegexConfig);
 
-	private static readonly string[] byteSuffix = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
+	private static readonly string[] byteSuffix = ["B", "KB", "MB", "GB", "TB", "PB", "EB"];
 
 	public static string FormatBytesHumanReadable(long bytes)
 	{

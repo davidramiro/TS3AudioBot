@@ -310,7 +310,7 @@ public sealed class MediaResolver : IResourceResolver, IPlaylistResolver, IThumb
 
 		if (string.IsNullOrEmpty(name))
 		{
-			var index = url.LastIndexOfAny(new[] { '\\', '/' });
+			var index = url.LastIndexOfAny(['\\', '/']);
 			name = index >= 0 ? url[index..] : url;
 		}
 		return new Playlist(items).SetTitle(name);

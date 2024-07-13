@@ -43,7 +43,7 @@ public class AliasCommand : ICommand
 		}
 
 		aliasContext.Arguments = arguments.Select(c => new LazyCommand(c)).ToArray();
-		var ret = await aliasCommand.Execute(info, Array.Empty<ICommand>());
+		var ret = await aliasCommand.Execute(info, []);
 		aliasContext.Arguments = backupArguments;
 		return ret;
 	}

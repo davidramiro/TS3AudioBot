@@ -176,7 +176,7 @@ public sealed class HistoryManager
 			throw new ArgumentNullException(nameof(search));
 
 		if (search.MaxResults <= 0)
-			return Array.Empty<AudioLogEntry>();
+			return [];
 
 		var q2 = audioLogEntries.Query().OrderByDescending(x => x.Timestamp);
 

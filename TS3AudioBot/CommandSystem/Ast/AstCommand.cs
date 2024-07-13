@@ -16,7 +16,7 @@ internal class AstCommand : AstNode
 {
 	public override AstType Type => AstType.Command;
 
-	public List<AstNode> Parameter { get; } = new List<AstNode>();
+	public List<AstNode> Parameter { get; } = [];
 
 	public AstCommand(string fullRequest) : base(fullRequest) { }
 

@@ -20,7 +20,7 @@ internal static class StaticList
 		if (start == 0)
 			return list;
 		if (start >= list.Count)
-			return Array.Empty<T>();
+			return [];
 		return list switch
 		{
 			T[] array => new ArraySegment<T>(array, start, array.Length - start),

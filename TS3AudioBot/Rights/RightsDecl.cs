@@ -22,10 +22,10 @@ internal abstract class RightsDecl
 
 	public RightsRule? Parent { get; set; }
 	private string[]? includeNames = null;
-	public RightsGroup[] Includes { get; set; } = Array.Empty<RightsGroup>();
+	public RightsGroup[] Includes { get; set; } = [];
 
-	public string[] DeclAdd { get; set; } = Array.Empty<string>();
-	public string[] DeclDeny { get; set; } = Array.Empty<string>();
+	public string[] DeclAdd { get; set; } = [];
+	public string[] DeclDeny { get; set; } = [];
 
 	public virtual bool ParseKey(string key, TomlObject tomlObj, ParseContext ctx)
 	{
@@ -35,7 +35,7 @@ internal abstract class RightsDecl
 			if (!tomlObj.TryGetValueArray<string>(out var declAdd))
 			{
 				ctx.Errors.Add("<+> Field has invalid data.");
-				declAdd = Array.Empty<string>();
+				declAdd = [];
 			}
 			DeclAdd = declAdd;
 			return true;
@@ -43,7 +43,7 @@ internal abstract class RightsDecl
 			if (!tomlObj.TryGetValueArray<string>(out var declDeny))
 			{
 				ctx.Errors.Add("<-> Field has invalid data.");
-				declDeny = Array.Empty<string>();
+				declDeny = [];
 			}
 			DeclDeny = declDeny;
 			return true;

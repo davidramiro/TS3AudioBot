@@ -37,8 +37,8 @@ internal class RightsRule : RightsDecl
 
 	public RightsRule()
 	{
-		Children = new List<RightsDecl>();
-		Matcher = new List<Matcher>();
+		Children = [];
+		Matcher = [];
 	}
 
 	public bool HasMatcher() => Matcher.Count > 0;

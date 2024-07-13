@@ -39,7 +39,7 @@ public class CommandGroup : ICommand
 		if (arguments.Count == 0)
 			result = string.Empty;
 		else
-			result = await arguments[0].ExecuteToString(info, Array.Empty<ICommand>());
+			result = await arguments[0].ExecuteToString(info, []);
 
 		var filter = info.GetFilter();
 		var commandResults = filter.Filter(commands, result).ToArray();

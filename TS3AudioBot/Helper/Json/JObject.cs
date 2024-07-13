@@ -28,7 +28,7 @@ public class JObject
 
 	public JObject Add(object? prop)
 	{
-		(properties ??= new()).Add(prop);
+		(properties ??= []).Add(prop);
 		return this;
 	}
 

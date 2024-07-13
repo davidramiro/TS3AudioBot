@@ -55,7 +55,7 @@ public static class MainCommands
 	internal class MainCommandsBag : ICommandBag
 	{
 		public IReadOnlyCollection<BotCommand> BagCommands { get; } = CommandManager.GetBotCommands(null, typeof(MainCommands)).ToArray();
-		public IReadOnlyCollection<string> AdditionalRights { get; } = new string[] { RightHighVolume, RightDeleteAllPlaylists };
+		public IReadOnlyCollection<string> AdditionalRights { get; } = [RightHighVolume, RightDeleteAllPlaylists];
 	}
 
 	public const string RightHighVolume = "ts3ab.admin.volume";
@@ -269,7 +269,7 @@ public static class MainCommands
 	public static JsonArray<BotInfo> CommandBotList(BotManager bots, ConfRoot config)
 	{
 		var botInfoList = bots.GetBotInfolist();
-		var botConfigList = config.GetAllBots() ?? Array.Empty<ConfBot>();
+		var botConfigList = config.GetAllBots() ?? [];
 		var infoList = new Dictionary<string, BotInfo>();
 		foreach (var botInfo in botInfoList)
 		{
@@ -344,7 +344,7 @@ public static class MainCommands
 		info.ParentInjector = bot.Injector;
 		try
 		{
-			return await bot.Scheduler.InvokeAsync(() => cmd.Execute(info, Array.Empty<ICommand>()).AsTask());
+			return await bot.Scheduler.InvokeAsync(() => cmd.Execute(info, []).AsTask());
 		}
 		finally
 		{
@@ -395,7 +395,7 @@ public static class MainCommands
 		if (arguments.Count == 0)
 			throw new CommandException(strings.error_cmd_at_least_one_argument, CommandExceptionReason.MissingParameter);
 		var leftArguments = arguments.TrySegment(1);
-		var arg0 = await arguments[0].Execute(info, Array.Empty<ICommand>());
+		var arg0 = await arguments[0].Execute(info, []);
 		switch (arg0)
 		{
 		case ICommand command:
@@ -750,10 +750,10 @@ public static class MainCommands
 
 		// If branch
 		if (cmpResult)
-			return await then.Execute(info, Array.Empty<ICommand>());
+			return await then.Execute(info, []);
 		// Else branch
 		if (other != null)
-			return await other.Execute(info, Array.Empty<ICommand>());
+			return await other.Execute(info, []);
 
 		return null;
 	}
@@ -836,13 +836,13 @@ public static class MainCommands
 	public static async Task<JsonArray<object?>> CommandJsonMerge(ExecutionInformation info, ApiCall _, IReadOnlyList<ICommand> arguments)
 	{
 		if (arguments.Count == 0)
-			return new JsonArray<object?>(Array.Empty<object>(), string.Empty);
+			return new JsonArray<object?>([], string.Empty);
 
 		var jsonArr = new object?[arguments.Count];
 		for (int i = 0; i < arguments.Count; i++)
 		{
 			object? res;
-			try { res = await arguments[i].Execute(info, Array.Empty<ICommand>()); }
+			try { res = await arguments[i].Execute(info, []); }
 			catch (AudioBotException) { continue; }
 			if (res is JsonObject o)
 				jsonArr[i] = o.GetSerializeObject();
@@ -856,7 +856,7 @@ public static class MainCommands
 	[Command("json api", "_undocumented")]
 	public static JsonObject CommandJsonApi(CommandManager commandManager, ApiCall _, BotManager? botManager = null)
 	{
-		var bots = botManager?.GetBotInfolist() ?? Array.Empty<BotInfo>();
+		var bots = botManager?.GetBotInfolist() ?? [];
 		var api = OpenApiGenerator.Generate(commandManager, bots);
 		return new JsonValue<JObject>(api, string.Empty);
 	}
@@ -1122,7 +1122,7 @@ public static class MainCommands
 
 		var backup = ctx.Arguments;
 		ctx.Arguments = null;
-		var result = await backup[index].Execute(info, Array.Empty<ICommand>());
+		var result = await backup[index].Execute(info, []);
 		ctx.Arguments = backup;
 		return result;
 	}
@@ -1639,23 +1639,23 @@ public static class MainCommands
 		string? delimiter = null;
 
 		// Get count
-		var res = await arguments[0].ExecuteToString(info, Array.Empty<ICommand>());
+		var res = await arguments[0].ExecuteToString(info, []);
 		if (!int.TryParse(res, out int count) || count < 0)
 			throw new CommandException("Count must be an integer >= 0", CommandExceptionReason.CommandError); // LOC: TODO
 
 		if (arguments.Count > 2)
 		{
 			// Get start
-			res = await arguments[1].ExecuteToString(info, Array.Empty<ICommand>());
+			res = await arguments[1].ExecuteToString(info, []);
 			if (!int.TryParse(res, out start) || start < 0)
 				throw new CommandException("Start must be an integer >= 0", CommandExceptionReason.CommandError); // LOC: TODO
 		}
 
 		// Get delimiter if exists
 		if (arguments.Count > 3)
-			delimiter = await arguments[2].ExecuteToString(info, Array.Empty<ICommand>());
+			delimiter = await arguments[2].ExecuteToString(info, []);
 
-		string text = await arguments[Math.Min(arguments.Count - 1, 3)].ExecuteToString(info, Array.Empty<ICommand>());
+		string text = await arguments[Math.Min(arguments.Count - 1, 3)].ExecuteToString(info, []);
 
 		var splitted = delimiter is null
 			? text.Split()
@@ -1823,7 +1823,7 @@ public static class MainCommands
 	public static async Task CommandXecute(ExecutionInformation info, IReadOnlyList<ICommand> arguments)
 	{
 		foreach (var arg in arguments)
-			await arg.Execute(info, Array.Empty<ICommand>());
+			await arg.Execute(info, []);
 	}
 	// ReSharper enable UnusedMember.Global
 

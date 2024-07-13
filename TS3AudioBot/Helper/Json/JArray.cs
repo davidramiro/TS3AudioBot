@@ -25,7 +25,7 @@ public class JArray
 			values = new List<object?>(props);
 	}
 
-	public void Add(object? prop) => (values ??= new()).Add(prop);
+	public void Add(object? prop) => (values ??= []).Add(prop);
 
 	class Converter : JsonConverter<JArray>
 	{
