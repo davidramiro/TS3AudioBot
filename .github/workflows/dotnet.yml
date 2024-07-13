@@ -82,7 +82,7 @@ jobs:
 
     - name: Publish
       run: |
-        dotnet publish TS3AudioBot\TS3AudioBot.csproj \
+        dotnet publish TS3AudioBot/TS3AudioBot.csproj \
           -c Release \
           --framework net8.0 \
           --self-contained \
