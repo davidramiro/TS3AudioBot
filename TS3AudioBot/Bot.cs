@@ -332,7 +332,7 @@ public sealed class Bot
 			}
 			catch (AudioBotException cachedClientError)
 			{
-				Log.Warn(
+				Log.Warn(cachedClientError,
 					"The bot is missing teamspeak permissions to view the communicating client. " +
 					"Some commands or permission checks might not work " +
 					"(clientlist:{0}, clientinfo:{1}).",

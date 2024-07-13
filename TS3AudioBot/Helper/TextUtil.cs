@@ -16,8 +16,9 @@ using System.Xml;
 
 namespace TS3AudioBot.Helper;
 
-public static class TextUtil
+public static partial class TextUtil
 {
+
 	public static Answer GetAnswer(string answer)
 	{
 		if (string.IsNullOrEmpty(answer))
@@ -30,12 +31,15 @@ public static class TextUtil
 			return Answer.Unknown;
 	}
 
-	private static readonly Regex BbMatch = new(@"\[URL\](.+?)\[\/URL\]", Util.DefaultRegexConfig);
+
+	[GeneratedRegex(@"\[URL\](.+?)\[\/URL\]", RegexOptions.IgnoreCase)]
+	private static partial Regex BbUrl();
+
 	public static string ExtractUrlFromBb(string ts3Link)
 	{
 		if (ts3Link.Contains("[URL]"))
 		{
-			var match = BbMatch.Match(ts3Link);
+			var match = BbUrl().Match(ts3Link);
 			if (match.Success)
 				return match.Groups[1].Value;
 		}
@@ -70,7 +74,8 @@ public static class TextUtil
 		return strb.ToString();
 	}
 
-	private static readonly Regex TimeReg = new(@"^(?:(\d+)d)?(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?(?:(\d+)ms)?$", Util.DefaultRegexConfig);
+	[GeneratedRegex(@"^(?:(\d+)d)?(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?(?:(\d+)ms)?$", RegexOptions.IgnoreCase)]
+	private static partial Regex HumanTimeSpan();
 
 	public static TimeSpan? ParseTime(string value)
 	{
@@ -89,7 +94,7 @@ public static class TextUtil
 			return int.TryParse(svalue, out var num) ? num : 0;
 		}
 
-		var match = TimeReg.Match(value);
+		var match = HumanTimeSpan().Match(value);
 		if (match.Success)
 		{
 			try

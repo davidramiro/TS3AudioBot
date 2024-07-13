@@ -21,11 +21,12 @@ using TSLib.Messages;
 
 namespace TS3AudioBot.Helper;
 
-public static class Util
+public static partial class Util
 {
 	public const RegexOptions DefaultRegexConfig = RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.ECMAScript;
 
-	private static readonly Regex SafeFileNameMatcher = new(@"^[\w-_]+$", DefaultRegexConfig);
+	[GeneratedRegex(@"^[\w-_]+$", RegexOptions.IgnoreCase | RegexOptions.ECMAScript)]
+	private static partial Regex SafeFileNameReg();
 
 	private static readonly string[] byteSuffix = ["B", "KB", "MB", "GB", "TB", "PB", "EB"];
 
@@ -97,7 +98,7 @@ public static class Util
 			return new LocalStr(strings.error_playlist_name_invalid_empty); // TODO change to more generic error
 		if (name.Length > 64)
 			return new LocalStr(strings.error_playlist_name_invalid_too_long);
-		if (!SafeFileNameMatcher.IsMatch(name))
+		if (!SafeFileNameReg().IsMatch(name))
 			return new LocalStr(strings.error_playlist_name_invalid_character);
 		return R.Ok;
 	}

@@ -26,10 +26,11 @@ using TSLib.Helper;
 namespace TS3AudioBot.CommandSystem;
 
 /// <summary>Management for the bot command system.</summary>
-public class CommandManager
+public partial class CommandManager
 {
 	private static readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
-	private static readonly Regex CommandNamespaceValidator = new(@"^[a-z\d]+( [a-z\d]+)*$", Util.DefaultRegexConfig & ~RegexOptions.IgnoreCase);
+	[GeneratedRegex(@"^[a-z\d]+( [a-z\d]+)*$")]
+	private static partial Regex CommandNamespaceValidatorReg();
 
 	private readonly Dictionary<string, AliasCommand> aliasPaths = [];
 	private readonly HashSet<string> commandPaths = [];
@@ -165,7 +166,7 @@ public class CommandManager
 
 	private E<string> LoadICommand(ICommand com, string path)
 	{
-		if (!CommandNamespaceValidator.IsMatch(path))
+		if (!CommandNamespaceValidatorReg().IsMatch(path))
 			return "Command has an invalid invoke name: " + path;
 
 		string[] comPath = path.Split(' ');

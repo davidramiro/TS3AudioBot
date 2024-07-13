@@ -614,7 +614,7 @@ public sealed class Ts3Client
 	private async void ExtendedClientPoke(object? sender, ClientPoke clientPoke)
 	{
 		// Convert to TextMessage
-		TextMessage textMessage = new TextMessage
+		var textMessage = new TextMessage
 		{
 			InvokerId = clientPoke.InvokerId,
 			InvokerName = clientPoke.InvokerName,

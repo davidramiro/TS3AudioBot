@@ -30,10 +30,7 @@ internal class DynamicResourceManager : ResourceManager
 
 	public override ResourceSet? GetResourceSet(CultureInfo culture, bool createIfNotExists, bool tryParents)
 	{
-		if (culture is null)
-		{
-			culture = Thread.CurrentThread.CurrentUICulture;
-		}
+		culture ??= Thread.CurrentThread.CurrentUICulture;
 
 		if (dynamicResourceSets.TryGetValue(culture.Name, out var set))
 		{
@@ -45,10 +42,7 @@ internal class DynamicResourceManager : ResourceManager
 
 	public override string? GetString(string name, CultureInfo? culture)
 	{
-		if (culture is null)
-		{
-			culture = Thread.CurrentThread.CurrentUICulture;
-		}
+		culture ??= Thread.CurrentThread.CurrentUICulture;
 
 		string? str;
 		if (dynamicResourceSets.TryGetValue(culture.Name, out var set))

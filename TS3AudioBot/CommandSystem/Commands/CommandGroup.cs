@@ -17,7 +17,7 @@ namespace TS3AudioBot.CommandSystem.Commands;
 
 public class CommandGroup : ICommand
 {
-	private readonly IDictionary<string, ICommand> commands = new Dictionary<string, ICommand>();
+	private readonly Dictionary<string, ICommand> commands = [];
 
 	public void AddCommand(string name, ICommand command) => commands.Add(name, command ?? throw new ArgumentNullException(nameof(command)));
 	public bool RemoveCommand(string name) => commands.Remove(name);

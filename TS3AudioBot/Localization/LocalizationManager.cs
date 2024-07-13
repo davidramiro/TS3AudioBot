@@ -94,10 +94,7 @@ public class LocalizationManager
 			// Check if we need to download the resource
 			if (forceDownload || (!tryFile.Exists && !triedDownloading))
 			{
-				if (availableToDownload is null)
-				{
-					availableToDownload = DownloadAvailableLanguages();
-				}
+				availableToDownload ??= DownloadAvailableLanguages();
 				var list = await availableToDownload;
 				if (list is null || !list.Contains(currentResolveCulture.Name))
 				{
