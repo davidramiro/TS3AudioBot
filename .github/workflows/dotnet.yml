@@ -23,7 +23,7 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
-      
+
     - name: Test
       run: dotnet test -c Release --verbosity normal
 
@@ -34,7 +34,8 @@ jobs:
       id: get_version
       run: |
         TSABVERSION=$(dotnet publish/TS3AudioBot.dll -V | grep -oP 'Version: \K.*')
-        echo "tsab_version=$TSABVERSION" >> $GITHUB_ENV
+        echo "Get Version: $TSABVERSION"
+        echo "tsab_version=$TSABVERSION" >> "$GITHUB_OUTPUT"
 
   build_frontend:
     runs-on: ubuntu-latest
@@ -74,9 +75,6 @@ jobs:
     strategy:
       matrix:
         rid: [ "linux-x64", "linux-arm", "linux-arm64", "win-x64" ]
-    concurrency:
-      group: publish_bins
-      cancel-in-progress: false
 
     steps:
     - uses: actions/checkout@v4
