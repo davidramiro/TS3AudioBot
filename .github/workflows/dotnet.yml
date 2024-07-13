@@ -33,7 +33,6 @@ jobs:
     - name: Get Version
       id: get_version
       run: |
-        cd TS3AudioBot
         TSABVERSION=$(dotnet publish/TS3AudioBot.dll -V | grep -oP 'Version: \K.*')
         echo "tsab_version=$TSABVERSION" >> $GITHUB_ENV
 
@@ -127,7 +126,8 @@ jobs:
       if: startsWith(matrix.rid, 'win-')
       run: |
         cd publish
-        zip -r TS3AudioBot.zip .
+        zip -r ../TS3AudioBot.zip .
+        cd ..
         curl \
           -X PUT \
           -H "Content-Type: application/zip" \
@@ -140,7 +140,8 @@ jobs:
       run: |
         cd publish
         chmod 755 TS3AudioBot
-        tar -czf TS3AudioBot.tar.gz .
+        tar -czf ../TS3AudioBot.tar.gz .
+        cd ..
         curl \
           -X PUT \
           -H "Content-Type: application/gzip" \
