@@ -28,7 +28,7 @@ jobs:
         dotnet build -c Release --no-restore
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --verbosity normal
 
   build_frontend:
     runs-on: ubuntu-latest
