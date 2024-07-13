@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using TS3AudioBot.Helper;
@@ -23,7 +24,14 @@ public class JspfContent : IPlaylistParser<XspfPlaylist>, IPlaylistWriter<XspfPl
 {
 	public XspfPlaylist GetFromStream(Stream stream)
 	{
-		using var sr = new StreamReader(stream);
+		using var sr = new StreamReader(stream, detectEncodingFromByteOrderMarks: true);
+		var data = sr.ReadToEnd();
+		return JsonSerializer.Deserialize<XspfPlaylist>(data) ?? throw new NullReferenceException("Data empty");
+	}
+
+	public XspfPlaylist GetFromStream(Stream stream, Encoding encoding)
+	{
+		using var sr = new StreamReader(stream, encoding);
 		var data = sr.ReadToEnd();
 		return JsonSerializer.Deserialize<XspfPlaylist>(data) ?? throw new NullReferenceException("Data empty");
 	}

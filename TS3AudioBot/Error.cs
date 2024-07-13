@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.Serialization;
 
 namespace TS3AudioBot;
 
@@ -32,8 +31,4 @@ public class AudioBotException : Exception
 	{
 		LocalStr = message;
 	}
-
-	protected AudioBotException(SerializationInfo info, StreamingContext context)
-		: base(info, context)
-	{ }
 }

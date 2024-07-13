@@ -140,7 +140,7 @@ internal class Plugin
 		}
 		catch (Exception ex)
 		{
-			Log.Warn("Plugin \"{0}\" failed to prepare: {1}",
+			Log.Warn(ex, "Plugin \"{0}\" failed to prepare: {1}",
 				File.Name,
 				ex.Message);
 			status = PluginStatus.Error;

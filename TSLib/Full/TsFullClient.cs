@@ -257,8 +257,7 @@ public sealed partial class TsFullClient : TsBaseFunctions, IAudioActiveProducer
 
 	partial void ProcessEachInitIvExpand(InitIvExpand initIvExpand)
 	{
-		var ctx = context;
-		if (ctx is null) throw new InvalidOperationException("context should be set");
+		var ctx = context ?? throw new InvalidOperationException("context should be set");
 
 		ctx.PacketHandler.ReceivedFinalInitAck();
 
@@ -274,8 +273,7 @@ public sealed partial class TsFullClient : TsBaseFunctions, IAudioActiveProducer
 
 	partial void ProcessEachInitIvExpand2(InitIvExpand2 initIvExpand2)
 	{
-		var ctx = context;
-		if (ctx is null) throw new InvalidOperationException("context should be set");
+		var ctx = context ?? throw new InvalidOperationException("context should be set");
 
 		ctx.PacketHandler.ReceivedFinalInitAck();
 
@@ -302,8 +300,7 @@ public sealed partial class TsFullClient : TsBaseFunctions, IAudioActiveProducer
 
 	partial void ProcessEachInitServer(InitServer initServer)
 	{
-		var ctx = context;
-		if (ctx is null) throw new InvalidOperationException("context should be set");
+		var ctx = context ?? throw new InvalidOperationException("context should be set");
 
 		ctx.PacketHandler.ClientId = initServer.ClientId;
 		var serverVersion = TsVersion.TryParse(initServer.Version, initServer.Platform);

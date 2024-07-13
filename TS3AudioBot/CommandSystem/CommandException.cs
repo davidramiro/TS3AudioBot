@@ -8,7 +8,6 @@
 // program. If not, see <https://opensource.org/licenses/OSL-3.0>.
 
 using System;
-using System.Runtime.Serialization;
 using TSLib.Messages;
 
 namespace TS3AudioBot.CommandSystem;
@@ -36,10 +35,6 @@ public class CommandException : AudioBotException
 	public CommandException(string message, Exception inner, CommandExceptionReason reason)
 		: base(message, inner)
 	{ Reason = reason; }
-
-	protected CommandException(SerializationInfo info, StreamingContext context)
-		: base(info, context)
-	{ }
 }
 
 [Serializable]

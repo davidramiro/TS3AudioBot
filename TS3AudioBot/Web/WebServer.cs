@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NLog;
 using System;
 using System.IO;
 using System.Linq;
@@ -101,7 +102,7 @@ public sealed class WebServer : IDisposable
 			.UseKestrel(kestrel =>
 			{
 				kestrel.Limits.MaxRequestBodySize = 3_000_000; // 3 MiB should be enough
-				})
+			})
 			.ConfigureServices(services =>
 			{
 				services.AddCors(options =>
@@ -117,12 +118,12 @@ public sealed class WebServer : IDisposable
 				app.UseCors("TS3AB");
 
 				if (api != null) // api enabled
-					{
+				{
 					app.Map(new PathString("/api"), map =>
 					{
 						map.Run(async ctx =>
 						{
-							using var _ = NLog.MappedDiagnosticsLogicalContext.SetScoped("BotId", "Api");
+							using var _scope = ScopeContext.PushProperty("BotId", "Api");
 							await Log.SwallowAsync(() => api.ProcessApiV1Call(ctx));
 						});
 					});

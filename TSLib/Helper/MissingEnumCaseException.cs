@@ -17,5 +17,4 @@ public sealed class MissingEnumCaseException : Exception
 {
 	public MissingEnumCaseException(string enumTypeName, string valueName) : base($"The switch does not handle the value \"{valueName}\" from \"{enumTypeName}\".") { }
 	public MissingEnumCaseException(string message, Exception inner) : base(message, inner) { }
-	private MissingEnumCaseException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 }

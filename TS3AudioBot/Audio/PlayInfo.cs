@@ -27,8 +27,8 @@ public sealed class PlayInfo
 
 	public PlayInfo Merge(PlayInfo other) => Merge(this, other);
 
-	[return: NotNullIfNotNull("self")]
-	[return: NotNullIfNotNull("other")]
+	[return: NotNullIfNotNull(nameof(self))]
+	[return: NotNullIfNotNull(nameof(other))]
 	public static PlayInfo? Merge(PlayInfo? self, PlayInfo? other)
 	{
 		if (other is null)

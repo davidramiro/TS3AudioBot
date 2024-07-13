@@ -297,7 +297,7 @@ public sealed class Bot
 
 		localization.ApplyLanguage();
 
-		Log.Info("User {0} requested: {1}", textMessage.InvokerName, textMessage.Message);
+		Log.Info("User {InvokerName} requested: {Message}", textMessage.InvokerName, textMessage.Message);
 
 		ts3client.InvalidateClientBuffer();
 
