@@ -121,7 +121,7 @@ public sealed class PlaylistManager
 	public R<IReadOnlyPlaylist, LocalStr> LoadPlaylist(string listId)
 	{
 		R<Playlist, LocalStr> res;
-		if (listId.StartsWith(".", StringComparison.Ordinal))
+		if (listId.StartsWith('.'))
 		{
 			res = GetSpecialPlaylist(listId);
 		}

@@ -133,7 +133,7 @@ internal class RightsRule : RightsDecl
 			}
 		default:
 			// group
-			if (key.StartsWith("$", StringComparison.Ordinal))
+			if (key.StartsWith('$'))
 			{
 				if (tomlObj.TomlType == TomlObjectType.Table)
 				{

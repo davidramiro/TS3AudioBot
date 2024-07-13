@@ -46,7 +46,7 @@ public abstract class ConfigPart : IJsonSerializable
 
 	protected void CreateDocumentation(TomlObject tomlObject)
 	{
-		var docs = tomlObject.Comments.Where(x => x.Text.StartsWith("#", StringComparison.Ordinal)).ToArray();
+		var docs = tomlObject.Comments.Where(x => x.Text.StartsWith('#')).ToArray();
 		tomlObject.ClearComments();
 		if (!string.IsNullOrEmpty(Documentation))
 			tomlObject.AddComment(Documentation);

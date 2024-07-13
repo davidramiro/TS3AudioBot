@@ -768,7 +768,7 @@ public static class MainCommands
 		{
 			index = playlistManager.Index;
 		}
-		else if (expression.StartsWith("@", StringComparison.Ordinal))
+		else if (expression.StartsWith('@'))
 		{
 			var subOffset = expression.AsSpan(1).Trim();
 			if (subOffset.IsEmpty)
@@ -1710,8 +1710,8 @@ public static class MainCommands
 	public static void CommandVolume(ExecutionInformation info, Player playerConnection, CallerInfo caller, ConfBot config, string volume, UserSession? session = null)
 	{
 		volume = volume.Trim();
-		bool relPos = volume.StartsWith("+", StringComparison.Ordinal);
-		bool relNeg = volume.StartsWith("-", StringComparison.Ordinal);
+		bool relPos = volume.StartsWith('+');
+		bool relNeg = volume.StartsWith('-');
 		string numberString = (relPos || relNeg) ? volume.Remove(0, 1).TrimStart() : volume;
 
 		if (!float.TryParse(numberString, NumberStyles.Float, CultureInfo.InvariantCulture, out var parsedVolume))

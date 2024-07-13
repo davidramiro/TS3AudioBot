@@ -86,7 +86,7 @@ public class ConfigValue<T> : ConfigPart where T : notnull
 	public override void ToToml(bool writeDefaults, bool writeDocumentation)
 	{
 		// Keys with underscore are read-only
-		if (Key.StartsWith("_", StringComparison.Ordinal))
+		if (Key.StartsWith('_'))
 			return;
 
 		if (Parent is null)

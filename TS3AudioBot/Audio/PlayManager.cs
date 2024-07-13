@@ -320,7 +320,7 @@ public class PlayManager
 		var meta = new PlayInfo();
 		foreach (var attr in attrs)
 		{
-			if (attr.StartsWith("@", StringComparison.Ordinal))
+			if (attr.StartsWith('@'))
 			{
 				meta.StartOffset = TextUtil.ParseTime(attr[1..]);
 			}

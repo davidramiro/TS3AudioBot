@@ -382,7 +382,7 @@ public sealed class Bot
 
 		var mode = config.Audio.SendMode.Value;
 		string script;
-		if (mode.StartsWith("!", StringComparison.Ordinal))
+		if (mode.StartsWith('!'))
 			script = mode;
 		else if (mode.Equals("voice", StringComparison.OrdinalIgnoreCase))
 			script = DefaultVoiceScript;
