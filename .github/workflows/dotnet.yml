@@ -5,8 +5,10 @@ on:
     branches: [ "master", "develop" ]
 
 jobs:
-  test_tsab:
+  build_tsab:
     runs-on: ubuntu-latest
+    outputs:
+      tsab_version: ${{ steps.get_version.outputs.tsab_version }}
 
     steps:
     - uses: actions/checkout@v4
@@ -21,14 +23,19 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
+      
+    - name: Test
+      run: dotnet test -c Release --verbosity normal
 
     - name: Build
-      run: |
-        dotnet build TSLibAutogen -c Release --no-restore
-        dotnet build -c Release --no-restore
+      run: dotnet publish -c Release -o publish
 
-    - name: Test
-      run: dotnet test --verbosity normal
+    - name: Get Version
+      id: get_version
+      run: |
+        cd TS3AudioBot
+        TSABVERSION=$(dotnet publish/TS3AudioBot.dll -V | grep -oP 'Version: \K.*')
+        echo "tsab_version=$TSABVERSION" >> $GITHUB_ENV
 
   build_frontend:
     runs-on: ubuntu-latest
@@ -63,11 +70,14 @@ jobs:
         path: WebInterface/dist
 
   publish:
-    needs: [ test_tsab, build_frontend ]
+    needs: [ build_tsab, build_frontend ]
     runs-on: ubuntu-latest
     strategy:
       matrix:
         rid: [ "linux-x64", "linux-arm", "linux-arm64", "win-x64" ]
+    concurrency:
+      group: publish_bins
+      cancel-in-progress: false
 
     steps:
     - uses: actions/checkout@v4
@@ -102,14 +112,11 @@ jobs:
         name: ts3audiobot-${{ matrix.rid }}
         path: publish
 
-    - name: Install nbgv
-      run: dotnet tool install --global nbgv
-
     - name: Get Version
       id: get_version
       run: |
         cd publish
-        TSABVERSION=$(nbgv get-version -p TS3AudioBot -v NuGetPackageVersion)
+        TSABVERSION=${{ needs.build_tsab.outputs.tsab_version }}
         TSABBRANCH="${{ github.head_ref || github.ref_name }}"
         TASBBUILDSUFFIX=$(echo ${{ matrix.rid }} | tr '-' '_')
         echo "TSABVERSION=$TSABVERSION" >> $GITHUB_ENV
