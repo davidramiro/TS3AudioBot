@@ -122,8 +122,11 @@ namespace TS3AudioBot.Web
 						{
 							map.Run(async ctx =>
 							{
-								using var _ = NLog.MappedDiagnosticsLogicalContext.SetScoped("BotId", "Api");
-								await Log.SwallowAsync(() => api.ProcessApiV1Call(ctx));
+
+								using (Log.PushScopeProperty("BotId", "Api"))
+								{
+									await Log.SwallowAsync(() => api.ProcessApiV1Call(ctx));
+								}
 							});
 						});
 					}
