@@ -28,7 +28,7 @@ namespace TS3AudioBot.History
 		private const string AudioLogEntriesTable = "audioLogEntries";
 		private const string ResourceTitleQueryColumn = "lowTitle";
 
-		private readonly LiteCollection<AudioLogEntry> audioLogEntries;
+		private readonly ILiteCollection<AudioLogEntry> audioLogEntries;
 		private readonly LinkedList<int> unusedIds = new LinkedList<int>();
 		private readonly object dbLock = new object();
 		private readonly ConfHistory config;
@@ -192,23 +192,20 @@ namespace TS3AudioBot.History
 
 			if (search.MaxResults <= 0)
 				return Array.Empty<AudioLogEntry>();
-
-			var query = Query.All(nameof(AudioLogEntry.Timestamp), Query.Descending);
-
+			//Query? query = Query.All(nameof(AudioLogEntry.Timestamp), Query.Descending);
+			BsonExpression exp = BsonExpression.Root;
 			if (!string.IsNullOrEmpty(search.TitlePart))
 			{
 				var titleLower = search.TitlePart.ToLowerInvariant();
-				query = Query.And(query,
-					Query.Where(ResourceTitleQueryColumn, val => val.AsString.Contains(titleLower)));
+				exp = Query.And(exp,Query.Contains(ResourceTitleQueryColumn, titleLower));
 			}
 
 			if (search.UserUid != null)
-				query = Query.And(query, Query.EQ(nameof(AudioLogEntry.UserUid), search.UserUid));
+				exp = Query.And(exp, Query.EQ(nameof(AudioLogEntry.UserUid), search.UserUid));
 
 			if (search.LastInvokedAfter != null)
-				query = Query.And(query, Query.GTE(nameof(AudioLogEntry.Timestamp), search.LastInvokedAfter.Value));
-
-			return audioLogEntries.Find(query, 0, search.MaxResults);
+				exp = Query.And(exp, Query.GTE(nameof(AudioLogEntry.Timestamp), search.LastInvokedAfter.Value));
+			return audioLogEntries.Find(exp, 0, search.MaxResults).OrderBy(t=>t.Timestamp).Reverse();
 		}
 
 		public string SearchParsed(SeachQuery query) => Format(Search(query));
