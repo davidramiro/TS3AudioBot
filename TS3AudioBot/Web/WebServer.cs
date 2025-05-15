@@ -153,11 +153,11 @@ namespace TS3AudioBot.Web
 			var addrs = config.Hosts.Value;
 			if (addrs.Contains("*"))
 			{
-				host.ConfigureKestrel(kestrel => { kestrel.ListenAnyIP(config.Port.Value); });
+				host.UseKestrel(kestrel => { kestrel.ListenAnyIP(config.Port.Value); });
 			}
 			else if (addrs.Count == 1 && addrs[0] == "localhost")
 			{
-				host.ConfigureKestrel(kestrel => { kestrel.ListenLocalhost(config.Port.Value); });
+				host.UseKestrel(kestrel => { kestrel.ListenLocalhost(config.Port.Value); });
 			}
 			else
 			{

@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace TS3AudioBot.Playlists.Parser
 {
@@ -23,6 +24,14 @@ namespace TS3AudioBot.Playlists.Parser
 		{
 			var serializer = new JsonSerializer();
 			using var sr = new StreamReader(stream);
+			using var jsonTextReader = new JsonTextReader(sr);
+			return serializer.Deserialize<XspfPlaylist>(jsonTextReader) ?? throw new NullReferenceException("Data empty");
+		}
+
+		public XspfPlaylist GetFromStream(Stream stream,Encoding encoding)
+		{
+			var serializer = new JsonSerializer();
+			using var sr = new StreamReader(stream,encoding);
 			using var jsonTextReader = new JsonTextReader(sr);
 			return serializer.Deserialize<XspfPlaylist>(jsonTextReader) ?? throw new NullReferenceException("Data empty");
 		}
