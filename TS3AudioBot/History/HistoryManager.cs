@@ -192,20 +192,23 @@ namespace TS3AudioBot.History
 
 			if (search.MaxResults <= 0)
 				return Array.Empty<AudioLogEntry>();
-			//Query? query = Query.All(nameof(AudioLogEntry.Timestamp), Query.Descending);
-			BsonExpression exp = BsonExpression.Root;
+			List<BsonExpression> conditions = new List<BsonExpression>();
 			if (!string.IsNullOrEmpty(search.TitlePart))
 			{
 				var titleLower = search.TitlePart.ToLowerInvariant();
-				exp = Query.And(exp,Query.Contains(ResourceTitleQueryColumn, titleLower));
+				conditions.Add(Query.Contains(ResourceTitleQueryColumn, titleLower));
 			}
 
 			if (search.UserUid != null)
-				exp = Query.And(exp, Query.EQ(nameof(AudioLogEntry.UserUid), search.UserUid));
+				conditions.Add(Query.EQ(nameof(AudioLogEntry.UserUid), search.UserUid));
 
 			if (search.LastInvokedAfter != null)
-				exp = Query.And(exp, Query.GTE(nameof(AudioLogEntry.Timestamp), search.LastInvokedAfter.Value));
-			return audioLogEntries.Find(exp, 0, search.MaxResults).OrderBy(t=>t.Timestamp).Reverse();
+				conditions.Add(Query.GTE(nameof(AudioLogEntry.Timestamp), search.LastInvokedAfter.Value));
+
+			return (conditions.Any()? audioLogEntries.Find(Query.And(conditions.ToArray()), 0, search.MaxResults)
+				: audioLogEntries.FindAll())
+				.OrderBy(t => t.Timestamp)
+				.Reverse();
 		}
 
 		public string SearchParsed(SeachQuery query) => Format(Search(query));
