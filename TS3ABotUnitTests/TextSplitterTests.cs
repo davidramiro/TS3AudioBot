@@ -19,10 +19,10 @@ namespace TS3ABotUnitTests
 				var parts = LongTextTransform.Split(Str1, LongTextBehaviour.SplitHard, maxMessageSize: i).ToArray();
 				foreach (var part in parts)
 				{
-					Assert.LessOrEqual(TsString.TokenLength(part), i);
+					Assert.That(TsString.TokenLength(part) <= i);
 				}
 				var joined = string.Concat(parts);
-				Assert.AreEqual(Str1, joined);
+				Assert.Equals(Str1, joined);
 			}
 		}
 	}
