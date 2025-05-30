@@ -2,7 +2,7 @@
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "develop" ]
 
 jobs:
   build_tsab:
@@ -36,7 +36,7 @@ jobs:
           TSABVERSION=$(dotnet publish/TS3AudioBot.dll -V | grep -oP 'Version: \K.*')
           echo "Get Version: $TSABVERSION"
           echo "tsab_version=$TSABVERSION" >> "$GITHUB_OUTPUT"
-          
+
   build_frontend:
     runs-on: ubuntu-latest
 
@@ -57,10 +57,12 @@ jobs:
         run: |
           cd WebInterface
           yarn install --frozen-lockfile
+
       - name: Build
         run: |
           cd WebInterface
           yarn run build
+
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
@@ -94,6 +96,7 @@ jobs:
             --runtime ${{ matrix.rid }} \
             -p:PublishSingleFile=true,IncludeNativeLibrariesForSelfExtract=true \
             -o publish
+
       - name: Fetch WebInterface
         uses: actions/download-artifact@v4
         with:
