@@ -17,7 +17,7 @@ updates:
     directory: "TSLib"
     schedule:
       interval: "daily"
-  - package-ecosystem: "yarn"
+  - package-ecosystem: "npm"
     directory: "WebInterface"
     schedule:
       interval: "daily"
