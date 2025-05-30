@@ -188,23 +188,20 @@ namespace TS3AudioBot.Environment
 		Mono,
 	}
 
-	public partial class BuildData
+	public class BuildData
 	{
-		public string Version = "<?>";
-		public string Branch = "<?>";
-		public string CommitSha = "<?>";
+		public string Version = ThisAssembly.Git.Tag;
+		public string Branch = ThisAssembly.Git.Branch;
+		public string CommitSha = ThisAssembly.Git.Commit;
 
-		public string BuildConfiguration = "<?>";
+		public string BuildConfiguration = ThisAssembly.Git.Sha;
 
 		public BuildData()
-		{
-			GetDataInternal();
-		}
+		{ }
 
 		public string ToLongString() => $"\nVersion: {Version}\nBranch: {Branch}\nCommitHash: {CommitSha}";
 		public override string ToString() => $"{Version}/{Branch}/{(CommitSha.Length > 8 ? CommitSha.Substring(0, 8) : CommitSha)}";
 
-		partial void GetDataInternal();
 	}
 
 	public class PlatformVersion
