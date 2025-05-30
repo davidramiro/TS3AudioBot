@@ -15,7 +15,7 @@ namespace TS3ABotUnitTests
 			q.Set(0, 42);
 
 			Assert.That(q.TryPeekStart(0, out int ov));
-			Assert.Equals(42, ov);
+			Assert.AreEqual(42, ov);
 
 			q.Set(1, 43);
 
@@ -23,15 +23,15 @@ namespace TS3ABotUnitTests
 			Assert.Throws<ArgumentOutOfRangeException>(() => q.Set(1, 99));
 
 			Assert.That(q.TryPeekStart(0, out ov));
-			Assert.Equals(42, ov);
+			Assert.AreEqual(42, ov);
 			Assert.That(q.TryPeekStart(1, out ov));
-			Assert.Equals(43, ov);
+			Assert.AreEqual(43, ov);
 
 			Assert.That(q.TryDequeue(out ov));
-			Assert.Equals(42, ov);
+			Assert.AreEqual(42, ov);
 
 			Assert.That(q.TryPeekStart(0, out ov));
-			Assert.Equals(43, ov);
+			Assert.AreEqual(43, ov);
 			Assert.That(!q.TryPeekStart(1, out ov));
 
 			q.Set(3, 45);
@@ -41,9 +41,9 @@ namespace TS3ABotUnitTests
 			Assert.Throws<ArgumentOutOfRangeException>(() => q.Set(4, 99));
 
 			Assert.That(q.TryDequeue(out ov));
-			Assert.Equals(43, ov);
+			Assert.AreEqual(43, ov);
 			Assert.That(q.TryDequeue(out ov));
-			Assert.Equals(44, ov);
+			Assert.AreEqual(44, ov);
 
 			q.Set(4, 46);
 
@@ -53,11 +53,11 @@ namespace TS3ABotUnitTests
 			q.Set(0, 47);
 
 			Assert.That(q.TryDequeue(out ov));
-			Assert.Equals(45, ov);
+			Assert.AreEqual(45, ov);
 			Assert.That(q.TryDequeue(out ov));
-			Assert.Equals(46, ov);
+			Assert.AreEqual(46, ov);
 			Assert.That(q.TryDequeue(out ov));
-			Assert.Equals(47, ov);
+			Assert.AreEqual(47, ov);
 
 			q.Set(2, 49);
 
@@ -66,9 +66,9 @@ namespace TS3ABotUnitTests
 			q.Set(1, 48);
 
 			Assert.That(q.TryDequeue(out ov));
-			Assert.Equals(48, ov);
+			Assert.AreEqual(48, ov);
 			Assert.That(q.TryDequeue(out ov));
-			Assert.Equals(49, ov);
+			Assert.AreEqual(49, ov);
 		}
 
 		[Test]
@@ -80,7 +80,7 @@ namespace TS3ABotUnitTests
 			{
 				q.Set(i, i);
 				Assert.That(q.TryDequeue(out var iCheck));
-				Assert.Equals(i, iCheck);
+				Assert.AreEqual(i, iCheck);
 			}
 
 			var setStatus = q.IsSet(ushort.MaxValue - 20);
@@ -107,7 +107,7 @@ namespace TS3ABotUnitTests
 				for (int i = 0; i < blockSize; i++)
 				{
 					Assert.That(q.TryDequeue(out var iCheck));
-					Assert.Equals(i, iCheck);
+					Assert.AreEqual(i, iCheck);
 				}
 			}
 
@@ -121,7 +121,7 @@ namespace TS3ABotUnitTests
 				for (int i = 0; i < blockSize; i++)
 				{
 					Assert.That(q.TryDequeue(out var iCheck));
-					Assert.Equals(i, iCheck);
+					Assert.AreEqual(i, iCheck);
 				}
 			}
 		}

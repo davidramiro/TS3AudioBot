@@ -53,7 +53,7 @@ namespace TS3ABotUnitTests
 			var lastXEntries = hf.GetLastXEntrys(1);
 			Assert.That(lastXEntries.Any());
 			var lastEntry = lastXEntries.First();
-			Assert.Equals(ar1, lastEntry.AudioResource);
+			Assert.AreEqual(ar1, lastEntry.AudioResource);
 
 			db.Dispose();
 
@@ -61,7 +61,7 @@ namespace TS3ABotUnitTests
 			lastXEntries = hf.GetLastXEntrys(1);
 			Assert.That(lastXEntries.Any());
 			lastEntry = lastXEntries.First();
-			Assert.Equals(ar1, lastEntry.AudioResource);
+			Assert.AreEqual(ar1, lastEntry.AudioResource);
 
 			hf.LogAudioResourceDelayed(data1);
 			hf.LogAudioResourceDelayed(data2);
@@ -69,16 +69,16 @@ namespace TS3ABotUnitTests
 			lastXEntries = hf.GetLastXEntrys(1);
 			Assert.That(lastXEntries.Any());
 			lastEntry = lastXEntries.First();
-			Assert.Equals(ar2, lastEntry.AudioResource);
+			Assert.AreEqual(ar2, lastEntry.AudioResource);
 
 			db.Dispose();
 
 			// store and order check
 			CreateDbStore();
 			var lastXEntriesArray = hf.GetLastXEntrys(2).ToArray();
-			Assert.Equals(2, lastXEntriesArray.Length);
-			Assert.Equals(ar2, lastXEntriesArray[0].AudioResource);
-			Assert.Equals(ar1, lastXEntriesArray[1].AudioResource);
+			Assert.AreEqual(2, lastXEntriesArray.Length);
+			Assert.AreEqual(ar2, lastXEntriesArray[0].AudioResource);
+			Assert.AreEqual(ar1, lastXEntriesArray[1].AudioResource);
 
 			var ale1 = hf.FindEntryByResource(ar1);
 			hf.RenameEntry(ale1, "sc_ar1X");
@@ -89,9 +89,9 @@ namespace TS3ABotUnitTests
 			// check entry renaming
 			CreateDbStore();
 			lastXEntriesArray = hf.GetLastXEntrys(2).ToArray();
-			Assert.Equals(2, lastXEntriesArray.Length);
-			Assert.Equals(ar1, lastXEntriesArray[0].AudioResource);
-			Assert.Equals(ar2, lastXEntriesArray[1].AudioResource);
+			Assert.AreEqual(2, lastXEntriesArray.Length);
+			Assert.AreEqual(ar1, lastXEntriesArray[0].AudioResource);
+			Assert.AreEqual(ar2, lastXEntriesArray[1].AudioResource);
 
 			var ale2 = hf.FindEntryByResource(ar2);
 			hf.RenameEntry(ale2, "me_ar2_loong1");
@@ -109,9 +109,9 @@ namespace TS3ABotUnitTests
 			// recheck order
 			CreateDbStore();
 			lastXEntriesArray = hf.GetLastXEntrys(2).ToArray();
-			Assert.Equals(2, lastXEntriesArray.Length);
-			Assert.Equals(ar2, lastXEntriesArray[0].AudioResource);
-			Assert.Equals(ar1, lastXEntriesArray[1].AudioResource);
+			Assert.AreEqual(2, lastXEntriesArray.Length);
+			Assert.AreEqual(ar2, lastXEntriesArray[0].AudioResource);
+			Assert.AreEqual(ar1, lastXEntriesArray[1].AudioResource);
 			db.Dispose();
 
 			// delete entry 1
@@ -119,27 +119,27 @@ namespace TS3ABotUnitTests
 			hf.RemoveEntry(hf.FindEntryByResource(ar1));
 
 			lastXEntriesArray = hf.GetLastXEntrys(3).ToArray();
-			Assert.Equals(1, lastXEntriesArray.Length);
+			Assert.AreEqual(1, lastXEntriesArray.Length);
 
 			// .. store new entry to check correct stream position writes
 			hf.LogAudioResourceDelayed(data3);
 
 			lastXEntriesArray = hf.GetLastXEntrys(3).ToArray();
-			Assert.Equals(2, lastXEntriesArray.Length);
+			Assert.AreEqual(2, lastXEntriesArray.Length);
 			db.Dispose();
 
 			// delete entry 2
 			CreateDbStore();
 			// .. check integrity from previous store
 			lastXEntriesArray = hf.GetLastXEntrys(3).ToArray();
-			Assert.Equals(2, lastXEntriesArray.Length);
+			Assert.AreEqual(2, lastXEntriesArray.Length);
 
 			// .. delete and recheck
 			hf.RemoveEntry(hf.FindEntryByResource(ar2));
 
 			lastXEntriesArray = hf.GetLastXEntrys(3).ToArray();
-			Assert.Equals(1, lastXEntriesArray.Length);
-			Assert.Equals(ar3, lastXEntriesArray[0].AudioResource);
+			Assert.AreEqual(1, lastXEntriesArray.Length);
+			Assert.AreEqual(ar3, lastXEntriesArray[0].AudioResource);
 			db.Dispose();
 
 			// Cleanup

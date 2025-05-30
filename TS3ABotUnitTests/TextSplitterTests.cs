@@ -22,7 +22,7 @@ namespace TS3ABotUnitTests
 					Assert.That(TsString.TokenLength(part) <= i);
 				}
 				var joined = string.Concat(parts);
-				Assert.Equals(Str1, joined);
+				Assert.AreEqual(Str1, joined);
 			}
 		}
 	}

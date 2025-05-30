@@ -20,15 +20,15 @@ namespace TS3ABotUnitTests
 /opt/music/bad/Opium.mp3"
 				))).Result;
 
-			Assert.Equals(3, result.Count);
+			Assert.AreEqual(3, result.Count);
 
-			Assert.Equals("Delain - Delain - We Are The Others", result[0].Title);
-			Assert.Equals("MONO - MONO - The Hand That Holds the Truth", result[1].Title);
-			Assert.Equals("Deathstars - Deathstars - Opium", result[2].Title);
+			Assert.AreEqual("Delain - Delain - We Are The Others", result[0].Title);
+			Assert.AreEqual("MONO - MONO - The Hand That Holds the Truth", result[1].Title);
+			Assert.AreEqual("Deathstars - Deathstars - Opium", result[2].Title);
 
-			Assert.Equals("/opt/music/bad/Delain.mp3", result[0].TrackUrl);
-			Assert.Equals("/opt/music/bad/MONO.mp3", result[1].TrackUrl);
-			Assert.Equals("/opt/music/bad/Opium.mp3", result[2].TrackUrl);
+			Assert.AreEqual("/opt/music/bad/Delain.mp3", result[0].TrackUrl);
+			Assert.AreEqual("/opt/music/bad/MONO.mp3", result[1].TrackUrl);
+			Assert.AreEqual("/opt/music/bad/Opium.mp3", result[2].TrackUrl);
 		}
 
 		[Test]
@@ -42,13 +42,13 @@ C:\Windows\System32\firewall32.cpl
 C:\Windows\System32\firewall64.cpl"
 				))).Result;
 
-			Assert.Equals(2, result.Count);
+			Assert.AreEqual(2, result.Count);
 
-			Assert.Equals("Never gonna give you up", result[0].Title);
-			Assert.Equals("Never gonna let you down", result[1].Title);
+			Assert.AreEqual("Never gonna give you up", result[0].Title);
+			Assert.AreEqual("Never gonna let you down", result[1].Title);
 
-			Assert.Equals(@"C:\Windows\System32\firewall32.cpl", result[0].TrackUrl);
-			Assert.Equals(@"C:\Windows\System32\firewall64.cpl", result[1].TrackUrl);
+			Assert.AreEqual(@"C:\Windows\System32\firewall32.cpl", result[0].TrackUrl);
+			Assert.AreEqual(@"C:\Windows\System32\firewall64.cpl", result[1].TrackUrl);
 		}
 
 		[Test]
@@ -61,13 +61,13 @@ C:\PepeHands.jpg
 "
 				))).Result;
 
-			Assert.Equals(2, result.Count);
+			Assert.AreEqual(2, result.Count);
 
-			Assert.Equals(null, result[0].Title);
-			Assert.Equals(null, result[1].Title);
+			Assert.AreEqual(null, result[0].Title);
+			Assert.AreEqual(null, result[1].Title);
 
-			Assert.Equals(@"C:\PepeHands.jpg", result[0].TrackUrl);
-			Assert.Equals("./do/I/look/like/I/know/what/a/Jaypeg/is", result[1].TrackUrl);
+			Assert.AreEqual(@"C:\PepeHands.jpg", result[0].TrackUrl);
+			Assert.AreEqual("./do/I/look/like/I/know/what/a/Jaypeg/is", result[1].TrackUrl);
 		}
 	}
 }

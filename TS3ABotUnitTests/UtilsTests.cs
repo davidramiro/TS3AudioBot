@@ -17,7 +17,7 @@ namespace TS3ABotUnitTests
 				var str = Util.FromSeed(i);
 				Assert.That(lowCaseRegex.IsMatch(str), "For seed: " + i);
 				var roundtrip = Util.ToSeed(str);
-				Assert.Equals(i, roundtrip);
+				Assert.AreEqual(i, roundtrip);
 			}
 		}
 
