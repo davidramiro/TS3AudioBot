@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace TS3AudioBot.Playlists.Parser
 {
@@ -24,7 +25,17 @@ namespace TS3AudioBot.Playlists.Parser
 			var serializer = new JsonSerializer();
 			using var sr = new StreamReader(stream);
 			using var jsonTextReader = new JsonTextReader(sr);
-			return serializer.Deserialize<XspfPlaylist>(jsonTextReader) ?? throw new NullReferenceException("Data empty");
+			return serializer.Deserialize<XspfPlaylist>(jsonTextReader) ??
+			       throw new NullReferenceException("Data empty");
+		}
+
+		public XspfPlaylist GetFromStream(Stream stream, Encoding encoding)
+		{
+			var serializer = new JsonSerializer();
+			using var sr = new StreamReader(stream, encoding);
+			using var jsonTextReader = new JsonTextReader(sr);
+			return serializer.Deserialize<XspfPlaylist>(jsonTextReader) ??
+			       throw new NullReferenceException("Data empty");
 		}
 
 		public XspfPlaylist GetFromString(string playlistString)
@@ -40,13 +51,12 @@ namespace TS3AudioBot.Playlists.Parser
 
 	public class XspfPlaylist : IBasePlaylist
 	{
-		[JsonProperty(PropertyName = "title")]
-		public string? Title { get; set; }
+		[JsonProperty(PropertyName = "title")] public string? Title { get; set; }
+
 		[JsonProperty(PropertyName = "creator")]
 		public string? Creator { get; set; }
 
-		[JsonProperty(PropertyName = "track")]
-		public List<XspfPlaylistEntry>? PlaylistEntries { get; set; }
+		[JsonProperty(PropertyName = "track")] public List<XspfPlaylistEntry>? PlaylistEntries { get; set; }
 
 		public string? Path { get; set; }
 		public string? FileName { get; set; }
@@ -55,15 +65,17 @@ namespace TS3AudioBot.Playlists.Parser
 		{
 		}
 
-		public List<string> GetTracksPaths() => PlaylistEntries.Select(x => x.Location.FirstOrDefault()).Where(x => x != null).ToList();
+		public List<string> GetTracksPaths() =>
+			(PlaylistEntries?.Select(x => x.Location?.FirstOrDefault()).Where(x => x != null).Select(x => x!) ??
+			 Enumerable.Empty<string>()).ToList();
 	}
 
 	public class XspfPlaylistEntry
 	{
 		public XspfPlaylistEntry() { }
 
-		[JsonProperty(PropertyName = "title")]
-		public string? Title { get; set; }
+		[JsonProperty(PropertyName = "title")] public string? Title { get; set; }
+
 		[JsonProperty(PropertyName = "duration")]
 		public long? Duration { get; set; } // MS : TODO timespan converter
 
@@ -89,7 +101,8 @@ namespace TS3AudioBot.Playlists.Parser
 
 	internal class JspfMetaConverter : JsonConverter<XspfMeta>
 	{
-		public override XspfMeta ReadJson(JsonReader reader, Type objectType, XspfMeta? existingValue, bool hasExistingValue, JsonSerializer serializer)
+		public override XspfMeta ReadJson(JsonReader reader, Type objectType, XspfMeta? existingValue,
+			bool hasExistingValue, JsonSerializer serializer)
 		{
 			var key = reader.ReadAsString();
 			var value = reader.ReadAsString();

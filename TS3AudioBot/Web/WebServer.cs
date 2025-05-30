@@ -122,8 +122,11 @@ namespace TS3AudioBot.Web
 						{
 							map.Run(async ctx =>
 							{
-								using var _ = NLog.MappedDiagnosticsLogicalContext.SetScoped("BotId", "Api");
-								await Log.SwallowAsync(() => api.ProcessApiV1Call(ctx));
+
+								using (Log.PushScopeProperty("BotId", "Api"))
+								{
+									await Log.SwallowAsync(() => api.ProcessApiV1Call(ctx));
+								}
 							});
 						});
 					}
@@ -153,11 +156,11 @@ namespace TS3AudioBot.Web
 			var addrs = config.Hosts.Value;
 			if (addrs.Contains("*"))
 			{
-				host.ConfigureKestrel(kestrel => { kestrel.ListenAnyIP(config.Port.Value); });
+				host.UseKestrel(kestrel => { kestrel.ListenAnyIP(config.Port.Value); });
 			}
 			else if (addrs.Count == 1 && addrs[0] == "localhost")
 			{
-				host.ConfigureKestrel(kestrel => { kestrel.ListenLocalhost(config.Port.Value); });
+				host.UseKestrel(kestrel => { kestrel.ListenLocalhost(config.Port.Value); });
 			}
 			else
 			{
