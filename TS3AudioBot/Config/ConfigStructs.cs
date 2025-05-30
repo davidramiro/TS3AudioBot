@@ -153,7 +153,7 @@ namespace TS3AudioBot.Config
 		public ConfPlaylists Playlists { get; } = Create<ConfPlaylists>("playlists");
 		public ConfHistory History { get; } = Create<ConfHistory>("history");
 		public ConfEvents Events { get; } = Create<ConfEvents>("events");
-		public ConfGreet Greet { get; } = Create<ConfGreet>("greet");
+		public ConfSpeech Speech { get; } = Create<ConfSpeech>("speech");
 	}
 
 	public class ConfCommands : ConfigTable
@@ -296,7 +296,7 @@ namespace TS3AudioBot.Config
 			"Called when a new song starts.");
 	}
 
-	public class ConfGreet : ConfigTable
+	public class ConfSpeech : ConfigTable
 	{
 		public ConfigValue<string> Greeting { get; } = new ConfigValue<string>("greeting", "Hello",
 			"The spoken greeting for new clients connecting to the bot's channel.");

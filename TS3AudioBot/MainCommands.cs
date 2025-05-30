@@ -1232,6 +1232,19 @@ namespace TS3AudioBot
 			return strb.ToString();
 		}
 
+		[Command("say")]
+		public static async Task CommandSay(PlayManager playManager, InvokerData invoker, ConfBot config, params string[] parameter)
+		{
+			var strb = new StringBuilder();
+			foreach (var param in parameter)
+				strb.Append(param);
+
+			var url = $"http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=32&client=tw-ob&q={strb}&tl={config.Speech.LangCode.Value}";
+			var media = new PlayResource(url, new AudioResource(url, "saying something", "media"));
+
+			await playManager.Play(invoker, media);
+		}
+
 		[Command("quiz")]
 		public static JsonValue<bool> CommandQuiz(Bot bot) => new JsonValue<bool>(bot.QuizMode, string.Format(strings.info_status_quizmode, bot.QuizMode ? strings.info_on : strings.info_off));
 		[Command("quiz on")]

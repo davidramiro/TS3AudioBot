@@ -354,9 +354,8 @@ namespace TS3AudioBot
 			if (ownChannel.Id != client.TargetChannelId) return;
 
 			var res = await ts3client.GetClientInfoById(client.ClientId);
-			this.ts3FullClient.SendPrivateMessage(string.Format("Hello, {0}, ID {1}!", res.Name, client.ClientId.ToString()), client.ClientId);
 
-			var url = $"http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=32&client=tw-ob&q={config.Greet.Greeting.Value} {res.Name}&tl={config.Greet.LangCode.Value}";
+			var url = $"http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=32&client=tw-ob&q={config.Speech.Greeting.Value} {res.Name}&tl={config.Speech.LangCode.Value}";
 			var media = new PlayResource(url, new AudioResource(url, "greeting", "media"));
 
 			await this.playManager.Play(new InvokerData(res.Uid), media);
