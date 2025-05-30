@@ -5,9 +5,12 @@
     <AssemblyName>TS3AudioBot</AssemblyName>
     <OutputType>Exe</OutputType>
     <LangVersion>8.0</LangVersion>
-    <TargetFrameworks>net9.0</TargetFrameworks>
+    <TargetFramework>net9.0</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <RollForward>Major</RollForward>
+
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
 
     <Nullable>enable</Nullable>
     <PlatformTarget>AnyCPU</PlatformTarget>
