@@ -7,8 +7,6 @@ on:
 jobs:
   build_tsab:
     runs-on: ubuntu-latest
-    outputs:
-      tsab_version: ${{ steps.get_version.outputs.tsab_version }}
 
     steps:
       - uses: actions/checkout@v4
@@ -29,13 +27,6 @@ jobs:
 
       - name: Build
         run: dotnet publish TS3AudioBot -c Release -o publish
-
-      - name: Get Version
-        id: get_version
-        run: |
-          TSABVERSION=$(dotnet publish/TS3AudioBot.dll -V | grep -oP 'Version: \K.*')
-          echo "Get Version: $TSABVERSION"
-          echo "tsab_version=$TSABVERSION" >> "$GITHUB_OUTPUT"
 
   build_frontend:
     runs-on: ubuntu-latest
@@ -85,13 +76,13 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 9.0.x
 
       - name: Publish
         run: |
           dotnet publish TS3AudioBot/TS3AudioBot.csproj \
             -c Release \
-            --framework net8.0 \
+            --framework net9.0 \
             --self-contained \
             --runtime ${{ matrix.rid }} \
             -p:PublishSingleFile=true,IncludeNativeLibrariesForSelfExtract=true \
