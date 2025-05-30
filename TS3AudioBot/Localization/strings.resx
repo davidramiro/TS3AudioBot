@@ -336,6 +336,9 @@
   <data name="cmd_print_help" xml:space="preserve">
     <value>Lets you format multiple parameter to one.</value>
   </data>
+  <data name="cmd_say_help" xml:space="preserve">
+    <value>Speaks out the given string via TTS.</value>
+  </data>
   <data name="cmd_quit_help" xml:space="preserve">
     <value>Closes the TS3AudioBot application.</value>
   </data>
