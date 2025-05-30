@@ -153,6 +153,7 @@ namespace TS3AudioBot.Config
 		public ConfPlaylists Playlists { get; } = Create<ConfPlaylists>("playlists");
 		public ConfHistory History { get; } = Create<ConfHistory>("history");
 		public ConfEvents Events { get; } = Create<ConfEvents>("events");
+		public ConfGreet Greet { get; } = Create<ConfGreet>("greet");
 	}
 
 	public class ConfCommands : ConfigTable
@@ -293,6 +294,15 @@ namespace TS3AudioBot.Config
 			"You can specify the time in the ISO-8601 format \"PT30S\" or like: 15s, 1h, 3m30s");
 		public ConfigValue<string> OnSongStart { get; } = new ConfigValue<string>("onsongstart", "",
 			"Called when a new song starts.");
+	}
+
+	public class ConfGreet : ConfigTable
+	{
+		public ConfigValue<string> Greeting { get; } = new ConfigValue<string>("greeting", "Hello",
+			"The spoken greeting for new clients connecting to the bot's channel.");
+
+		public ConfigValue<string> LangCode { get; } = new ConfigValue<string>("language", "en",
+			"Language code (Google TTS).");
 	}
 
 	// Utility config structs

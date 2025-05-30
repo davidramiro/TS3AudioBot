@@ -27,6 +27,7 @@ using TS3AudioBot.ResourceFactories;
 using TS3AudioBot.Sessions;
 using TSLib;
 using TSLib.Full;
+using TSLib.Full.Book;
 using TSLib.Helper;
 using TSLib.Messages;
 using TSLib.Scheduler;
@@ -54,6 +55,7 @@ namespace TS3AudioBot
 		private readonly Ts3Client ts3client;
 		private readonly TsFullClient ts3FullClient;
 		private readonly SessionManager sessionManager;
+		private readonly Connection serverView;
 		private readonly PlayManager playManager;
 		private readonly IVoiceTarget targetManager;
 		private readonly Player player;
@@ -92,6 +94,7 @@ namespace TS3AudioBot
 			builder.RequestModule<TsBaseFunctions, TsFullClient>();
 			builder.RequestModule<Ts3Client>();
 			builder.RequestModule<Player>();
+			builder.RequestModule<Connection>();
 			builder.RequestModule<CustomTargetPipe>();
 			builder.RequestModule<IVoiceTarget, CustomTargetPipe>();
 			builder.RequestModule<SessionManager>();
@@ -120,6 +123,7 @@ namespace TS3AudioBot
 			player.SetTarget(customTarget);
 			Injector.AddModule(ts3FullClient.Book);
 			playManager = Injector.GetModuleOrThrow<PlayManager>();
+			serverView = Injector.GetModuleOrThrow<Connection>();
 			targetManager = Injector.GetModuleOrThrow<IVoiceTarget>();
 			sessionManager = Injector.GetModuleOrThrow<SessionManager>();
 			stats = Injector.GetModuleOrThrow<Stats>();
@@ -158,6 +162,10 @@ namespace TS3AudioBot
 			ts3client.OnMessageReceived += OnMessageReceived;
 			// Register callback to remove open private sessions, when user disconnects
 			ts3FullClient.OnEachClientLeftView += OnClientLeftView;
+			ts3FullClient.OnEachClientMoved += async (_, e) =>
+			{
+				await OnEachClientMoved(_, e);
+			};;
 			ts3client.OnBotConnected += OnBotConnected;
 			ts3client.OnBotDisconnected += OnBotDisconnected;
 			ts3client.OnBotStoppedReconnecting += OnBotStoppedReconnecting;
@@ -337,6 +345,21 @@ namespace TS3AudioBot
 		{
 			targetManager.WhisperClientUnsubscribe(eventArgs.ClientId);
 			sessionManager.RemoveSession(eventArgs.ClientId);
+		}
+
+		private async Task OnEachClientMoved(object? sender, ClientMoved client) {
+			var ownChannel = this.serverView.CurrentChannel();
+			if (ownChannel == null) return;
+
+			if (ownChannel.Id != client.TargetChannelId) return;
+
+			var res = await ts3client.GetClientInfoById(client.ClientId);
+			this.ts3FullClient.SendPrivateMessage(string.Format("Hello, {0}, ID {1}!", res.Name, client.ClientId.ToString()), client.ClientId);
+
+			var url = $"http://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=32&client=tw-ob&q={config.Greet.Greeting.Value} {res.Name}&tl={config.Greet.LangCode.Value}";
+			var media = new PlayResource(url, new AudioResource(url, "greeting", "media"));
+
+			await this.playManager.Play(new InvokerData(res.Uid), media);
 		}
 
 		private async Task BeforeResourceStarted(object? sender, PlayInfoEventArgs e)

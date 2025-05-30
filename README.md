@@ -1,22 +1,6 @@
 # TS3AudioBot
 
-This is a open-source TeamSpeak3 bot, playing music and much more.  
-
-- **Got questions?** Check out our [Wiki](https://github.com/Splamy/TS3AudioBot/wiki), [FAQ](https://github.com/Splamy/TS3AudioBot/wiki/FAQ), or ask on our [![Join Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/TS3AudioBot/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
-- **Something's broken or it's complicated?** [Open an issue](https://github.com/Splamy/TS3AudioBot/issues/new/choose)
-  - Please use and fill out one of the templates we provide unless they are not applicable or you have a good reason not to.  
-    This helps us getting through the technical stuff faster
-  - Please keep issues in english, this makes it easier for everyone to participate and keeps issues relevant to link to.
-- **Want to support this Project?**
-  - You can discuss and suggest features. However the [backlog](https://github.com/Splamy/TS3AudioBot/projects/2) is large and feature requests will probably take time
-  - You can contribute code. This is always appreciated, please open an issue or contact a maintainer to discuss *before* you start.
-  - You can support me on [![Patreon][patreon-badge]][patreon-link] or [![Paypal][paypal-badge]][paypal-link]
-
-[patreon-badge]: https://img.shields.io/badge/Patreon-Donate!-F96854.svg?logo=patreon&style=flat-square
-[patreon-link]: https://patreon.com/Splamy
-
-[paypal-badge]: https://img.shields.io/badge/Paypal-Donate!-00457C.svg?logo=paypal&style=flat-square
-[paypal-link]: https://paypal.me/Splamy
+This is a open-source TeamSpeak3 bot, playing music and much more.
 
 ## Features
 * Play Youtube and Soundcloud songs as well as stream Twitch (extensible with plugins)
@@ -30,7 +14,6 @@ This is a open-source TeamSpeak3 bot, playing music and much more.
 * Localization
 * Low CPU and memory with our self-written headless ts3 client
 
-To see what's planned and in progress take a look into our [Roadmap](https://github.com/Splamy/TS3AudioBot/projects/2).
 
 ## Bot Commands
 The bot is fully operable via chat.  
@@ -41,16 +24,9 @@ For an in-depth command tutorial see [here in the wiki](https://github.com/Splam
 ## Install
 
 ### Download
-Pick and download the build for your platform and liking:
+Pick and download the build for your platform and liking from the [releases](https://github.com/davidramiro/TS3AudioBot/releases/latest)
 
-|  | Stable | Experimental |
-| -- | -- | -- |
-| | Versions are mostly considered stable but won't get bigger features as fast. | Will always have the latest and greatest but might not be fully stable or have broken features. |
-| Windows_x64 | [![Download](https://img.shields.io/badge/Download-master-green.svg)](https://splamy.de/api/nightly/ts3ab/master_win_x64/download) | [![Download](https://img.shields.io/badge/Download-develop-green.svg)](https://splamy.de/api/nightly/ts3ab/develop_win_x64/download) |
-| Linux_x64 | [![Download](https://img.shields.io/badge/Download-master-green.svg)](https://splamy.de/api/nightly/ts3ab/master_linux_x64/download) | [![Download](https://img.shields.io/badge/Download-develop-green.svg)](https://splamy.de/api/nightly/ts3ab/develop_linux_x64/download) |
-| Docker | [![Docker](https://img.shields.io/badge/Docker-0.11.0-0db7ed.svg)](https://github.com/getdrunkonmovies-com/TS3AudioBot_docker) (NOTE: This build is community-maintained. It comes with all dependencies as well as youtube-dl preconfigured) | - |
 
-(We have more builds like linux arm/arm64 and .NET framework dependent builds available on our [nightly server](https://splamy.de/Nightly#ts3ab))
 
 #### Linux
 Install the required dependencies:
@@ -94,21 +70,17 @@ For further reading check out the [CommandSystem](https://github.com/Splamy/TS3A
 
 ## Building manually
 
-|master|develop|
-|:--:|:--:|
-|[![Build status](https://ci.appveyor.com/api/projects/status/i7nrhqkbntdhwpxp/branch/master?svg=true)](https://ci.appveyor.com/project/Splamy/ts3audiobot/branch/master)|[![Build status](https://ci.appveyor.com/api/projects/status/i7nrhqkbntdhwpxp/branch/develop?svg=true)](https://ci.appveyor.com/project/Splamy/ts3audiobot/branch/develop)|
-
 ### Download
-Download the git repository with `git clone --recurse-submodules https://github.com/Splamy/TS3AudioBot.git`.
+Download the git repository with `git clone --recurse-submodules https://github.com/davidramiro/TS3AudioBot.git`.
 
 #### Linux
-1. Get the latest `dotnet core 3.1` version by following [this tutorial](https://docs.microsoft.com/dotnet/core/install/linux-package-managers) and choose your platform
+1. Get the latest `.NET 9` version by following [this link](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) and choose your platform
 1. Go into the directory of the repository with `cd TS3AudioBot`
-1. Execute `dotnet build --framework netcoreapp3.1 --configuration Release TS3AudioBot` to build the AudioBot
-1. The binary will be in `./TS3AudioBot/bin/Release/netcoreapp3.1` and can be run with `dotnet TS3AudioBot.dll`
+1. Execute `dotnet build -c Release TS3AudioBot` to build the AudioBot
+1. The binary will be in `./TS3AudioBot/bin/Release/net9.0` and can be run with `dotnet TS3AudioBot.dll`
 
 #### Windows
-1. Make sure you have `Visual Studio` with the `dotnet core 3.1` development toolchain installed
+1. Make sure you have `Visual Studio` with the `.NET 9` development toolchain installed
 1. Build the AudioBot with Visual Studio.
 
 ### Building the WebInterface
@@ -120,15 +92,6 @@ Download the git repository with `git clone --recurse-submodules https://github.
 1. You can alternatively use `yarn run start` for development.  
   This will use the webpack dev server with live reload instead of the ts3ab server.
 
-## Community
-
-### Localization
-:speech_balloon: *Want to help translate or improve translation?*  
-Join us on [Transifex](https://www.transifex.com/respeak/ts3audiobot/) to help translate  
-or in our [Gitter](https://gitter.im/TS3AudioBot/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link) to discuss or ask anything!  
-All help is appreciated :heart:
-
-Translations need to be manually approved and will then be automatically built and deployed to [our nightly server here](https://splamy.de/TS3AudioBot).
 
 ## License
 This project is licensed under [OSL-3.0](https://opensource.org/licenses/OSL-3.0).
@@ -138,6 +101,3 @@ Why OSL-3.0:
 - If you create plugins you do not have to make them public like in GPL. (Although we would be happy if you shared them :)
 - With OSL we want to allow you providing the TS3AB as a service (even commercially). We do not want the software to be sold but the service. We want this software to be free for everyone.
 - TL; DR? https://tldrlegal.com/license/open-software-licence-3.0
-
----
-[![forthebadge](http://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/contains-cat-gifs.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/made-with-c-sharp.svg)](http://forthebadge.com)
