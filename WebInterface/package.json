@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.7",
-    "copy-webpack-plugin": "^6.0.3",
+    "copy-webpack-plugin": "^13.0.0",
     "css-loader": "^3.5.3",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
